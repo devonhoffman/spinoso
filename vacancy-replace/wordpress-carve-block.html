@@ -15,7 +15,7 @@
   (function () {
     var HOLD_MS = 1000;       // how long it must be fully in view before carving starts
     var SPEED = 1;            // 1.5 = everything 50% slower, 0.8 = faster
-    var STONE = '#EDEDE6';    // page background; the stone matches it
+    // the stone is only grain and shading drawn over the page, so it always matches the page color
 
     var CARVE = 2800 * SPEED, PAUSE = 300 * SPEED, PAINT = 1500 * SPEED, FADE = 900 * SPEED;
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
