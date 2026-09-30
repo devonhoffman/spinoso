@@ -1,0 +1,38 @@
+<div class="spv-flip" data-spv-flip>
+  <div class="spv-flip__card">
+    <div class="spv-flip__face spv-flip__front">
+      <span class="spv-flip__small">Space</span>
+      <span class="spv-flip__big">Available</span>
+    </div>
+    <div class="spv-flip__face spv-flip__back">
+      <img src="https://YOUR-SITE.com/wp-content/uploads/dicks-house-of-sport.png" alt="DICK'S House of Sport">
+    </div>
+  </div>
+</div>
+<style>
+  .spv-flip { max-width: 360px; margin: 0 auto 24px; perspective: 900px; }
+  .spv-flip__card { position: relative; aspect-ratio: 500 / 279; transform-style: preserve-3d; transition: transform 1s cubic-bezier(.3, 1.4, .5, 1); }
+  .spv-flip.is-flipped .spv-flip__card { transform: rotateY(180deg); }
+  .spv-flip__face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .spv-flip__front { border: 2px dashed #b5b9be; border-radius: 4px; background: #f4f5f6; color: #8a8f96; text-transform: uppercase; line-height: 1; }
+  .spv-flip__small { font-size: 13px; letter-spacing: .35em; font-weight: 600; }
+  .spv-flip__big { font-size: clamp(26px, 6vw, 40px); font-weight: 800; letter-spacing: .06em; margin-top: 8px; }
+  .spv-flip__back { transform: rotateY(180deg); }
+  .spv-flip__back img { width: 100%; height: 100%; object-fit: contain; margin: 0; }
+  @media (prefers-reduced-motion: reduce) { .spv-flip__card { transition: none; } }
+</style>
+<script>
+  (function () {
+    var els = document.querySelectorAll('[data-spv-flip]:not([data-spv-ready])');
+    els.forEach(function (el) {
+      el.setAttribute('data-spv-ready', '');
+      if (!('IntersectionObserver' in window)) { el.classList.add('is-flipped'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+        setTimeout(function () { el.classList.add('is-flipped'); }, 700);
+      }, { threshold: 0.6 });
+      io.observe(el);
+    });
+  })();
+</script>
