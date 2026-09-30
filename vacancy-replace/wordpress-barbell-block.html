@@ -5,37 +5,56 @@
       <span class="spv-lift__big">Available</span>
     </div>
     <div class="spv-lift__rig">
-      <span class="spv-lift__bar"></span>
-      <span class="spv-lift__lane">
-        <span class="spv-lift__plate spv-lift__plate--l"><b>45</b></span>
-        <span class="spv-lift__plate spv-lift__plate--r"><b>45</b></span>
-      </span>
+      <svg class="spv-lift__barbell" viewBox="0 0 1000 250" aria-hidden="true">
+        <defs>
+          <linearGradient id="spvSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f3f5"/><stop offset=".45" stop-color="#a9afb6"/><stop offset=".55" stop-color="#8b9199"/><stop offset="1" stop-color="#4c5157"/></linearGradient>
+          <linearGradient id="spvChrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".35" stop-color="#cfd4d9"/><stop offset=".6" stop-color="#7d838a"/><stop offset="1" stop-color="#3e4247"/></linearGradient>
+          <linearGradient id="spvRubber" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#151618"/><stop offset=".3" stop-color="#34373b"/><stop offset=".55" stop-color="#26282b"/><stop offset="1" stop-color="#0e0f10"/></linearGradient>
+          <pattern id="spvKnurl" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0H4" stroke="rgba(0,0,0,.28)" stroke-width="1"/></pattern>
+        </defs>
+        <ellipse cx="500" cy="246" rx="470" ry="5" fill="rgba(0,0,0,.18)"/>
+        <!-- shaft with knurling -->
+        <rect x="190" y="118" width="620" height="14" fill="url(#spvSteel)"/>
+        <rect x="300" y="118" width="170" height="14" fill="url(#spvKnurl)"/>
+        <rect x="530" y="118" width="170" height="14" fill="url(#spvKnurl)"/>
+        <!-- sleeves -->
+        <rect x="14" y="111" width="176" height="28" rx="3" fill="url(#spvChrome)"/>
+        <rect x="810" y="111" width="176" height="28" rx="3" fill="url(#spvChrome)"/>
+        <!-- inner collars -->
+        <rect x="186" y="101" width="12" height="48" rx="2" fill="url(#spvChrome)"/>
+        <rect x="802" y="101" width="12" height="48" rx="2" fill="url(#spvChrome)"/>
+        <!-- 45 lb plates -->
+        <rect x="144" y="4" width="40" height="242" rx="7" fill="url(#spvRubber)"/>
+        <rect x="816" y="4" width="40" height="242" rx="7" fill="url(#spvRubber)"/>
+        <!-- 25 lb plates -->
+        <rect x="110" y="42" width="31" height="166" rx="6" fill="url(#spvRubber)"/>
+        <rect x="859" y="42" width="31" height="166" rx="6" fill="url(#spvRubber)"/>
+        <!-- spring clips -->
+        <rect x="94" y="107" width="13" height="36" rx="3" fill="#2a2c2f"/>
+        <rect x="893" y="107" width="13" height="36" rx="3" fill="#2a2c2f"/>
+        <!-- plate edge highlights -->
+        <path d="M150 12V238M822 12V238M116 50V200M865 50V200" stroke="rgba(255,255,255,.07)" stroke-width="3"/>
+      </svg>
       <img class="spv-lift__logo" src="/wp-content/uploads/2026/09/Powerhouse-Logo.png" alt="Powerhouse Gym">
     </div>
   </div>
   <canvas class="spv-lift__fx" aria-hidden="true"></canvas>
 </div>
 <style>
-  .spv-lift { --plate: #1d1f22; --plate-accent: #c8102e; position: relative; max-width: 360px; margin: 0 auto 24px; }
+  .spv-lift { position: relative; max-width: 360px; margin: 0 auto 24px; }
   .spv-lift__stage { position: relative; aspect-ratio: 2 / 1; }
   .spv-lift__sign { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed #b5b9be; border-radius: 4px; background: #f4f5f6; color: #8a8f96; text-transform: uppercase; line-height: 1; transform-origin: 50% 100%; }
   .spv-lift__sign::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, 0) 75%); opacity: var(--spv-shadow, 0); pointer-events: none; }
   .spv-lift__small { font-size: 13px; letter-spacing: .35em; font-weight: 600; }
   .spv-lift__big { font-size: clamp(26px, 6vw, 40px); font-weight: 800; letter-spacing: .06em; margin-top: 8px; }
   .spv-lift__rig { position: absolute; inset: 0; opacity: 0; }
-  .spv-lift__lane { position: absolute; left: 0; right: 0; top: -10%; bottom: -10%; overflow: hidden; perspective: 700px; pointer-events: none; }
-  .spv-lift__bar { position: absolute; left: 3%; right: 3%; top: 50%; height: 5%; min-height: 4px; margin-top: -2.5%; border-radius: 3px; background: linear-gradient(#e3e6e9, #8d939a 55%, #5d6268); transform-origin: 50% 50%; }
-  .spv-lift__plate { position: absolute; top: 50%; height: 83.333%; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: translate(-50%, -50%) rotateY(68deg);
-    background: radial-gradient(circle, #6b7076 0 7%, #111 7.5% 11%, var(--plate) 11.5% 60%, var(--plate-accent) 60.5% 66%, var(--plate) 66.5% 86%, #3a3d42 87% 100%);
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .08); }
-  .spv-lift__plate--l { left: 6%; }
-  .spv-lift__plate--r { left: 94%; }
-  .spv-lift__plate b { position: absolute; top: 18%; color: #fff; font: 800 clamp(9px, 2.6vw, 13px)/1 system-ui, sans-serif; letter-spacing: .05em; opacity: .85; }
-  .spv-lift__logo { position: absolute; left: 14%; right: 14%; top: 0; bottom: 0; width: 72%; height: 100%; object-fit: contain; margin: 0; z-index: 1; transform-origin: 50% 100%; }
+  .spv-lift__barbell { position: absolute; left: 0; bottom: 0; width: 100%; height: 50%; overflow: visible; transform-origin: 50% 100%; }
+  .spv-lift__logo { position: absolute; left: 19%; top: 0; width: 62%; height: 100%; object-fit: contain; object-position: 50% 100%; margin: 0; z-index: 1; transform-origin: 50% 100%; transform: translateY(-26.4%); }
   .spv-lift__fx { position: absolute; left: 0; top: -50%; width: 100%; height: 180%; pointer-events: none; z-index: 3; }
   @media (prefers-reduced-motion: reduce) {
-    .spv-lift__sign, .spv-lift__bar, .spv-lift__plate { display: none; }
+    .spv-lift__sign, .spv-lift__barbell { display: none; }
     .spv-lift__rig { opacity: 1; }
+    .spv-lift__logo { transform: none; }
   }
 </style>
 <script>
@@ -44,12 +63,14 @@
     var SPEED = 1;        // 1.5 = everything 50% slower, 0.8 = faster
 
     // Timeline (ms): rumble, fall, press on the sign, smash through, land,
-    // then the plates slide off the bar, turn to face you and roll away.
+    // then the logo hops off the bar, the barbell rolls away and the logo sets down.
     var RUMBLE = 500 * SPEED, FALL = 1100 * SPEED, PUSH = 220 * SPEED, SMASH = 170 * SPEED;
-    var SETTLE = 700 * SPEED, SLIDE = 350 * SPEED, TURN = 450 * SPEED, ROLL = 1600 * SPEED;
+    var SETTLE = 650 * SPEED, HOP = 260 * SPEED, DROP = 300 * SPEED, ROLL = 1100 * SPEED;
     var T_FALL = RUMBLE, T_CONTACT = T_FALL + FALL, T_PUSH = T_CONTACT + PUSH, T_IMPACT = T_PUSH + SMASH;
-    var T_SLIDE = T_IMPACT + SETTLE, T_TURN = T_SLIDE + SLIDE, T_END = T_TURN + ROLL;
-    var START_Y = -2.6;   // the barbell starts 2.6 stage-heights above its resting place
+    var T_HOP = T_IMPACT + SETTLE, T_DROP = T_HOP + HOP, T_SET = T_DROP + DROP, T_END = Math.max(T_HOP + ROLL, T_SET + 500);
+    var START_Y = -2.6;   // starts 2.6 stage-heights above its resting place
+    var ON_BAR = -.264;   // the logo rides on top of the bar (fraction of its height)
+    var HOP_HEIGHT = -.14;
 
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -95,10 +116,10 @@
         }
         for (var k = 0; k < 34; k++) chip(cx + (Math.random() - .5) * lw * .95, ground - 4, Math.random() < .5 ? -1 : 1, 1);
       } else {
-        // little kicks of dust as the plates start rolling
-        for (var m = 0; m < 16; m++) {
-          puff(room.l + lw * .06, 1, Math.random() * 1.5, 3 + Math.random() * 4, .18);
-          puff(room.l + lw * .94, -1, Math.random() * 1.5, 3 + Math.random() * 4, .18);
+        // a light puff where the logo sets down
+        for (var m = 0; m < 24; m++) {
+          var d = Math.random() < .5 ? -1 : 1;
+          puff(cx + d * Math.random() * lw * .3, d, 1 + Math.random() * 2.5, 3 + Math.random() * 5, .2);
         }
       }
 
@@ -135,24 +156,15 @@
       var stage = el.querySelector('.spv-lift__stage');
       var sign = el.querySelector('.spv-lift__sign');
       var rig = el.querySelector('.spv-lift__rig');
-      var bar = el.querySelector('.spv-lift__bar');
+      var barbell = el.querySelector('.spv-lift__barbell');
       var logo = el.querySelector('.spv-lift__logo');
-      var plates = [el.querySelector('.spv-lift__plate--l'), el.querySelector('.spv-lift__plate--r')];
-      var room = reachOf(el), W = room.w, R = stage.offsetHeight / 2;
-      // roll each plate until it has fully left the block (or hit the screen edge)
-      var rollL = W * .06 + R + room.l, rollR = W * .06 + R + room.r;
-      // the lane the plates roll in reaches as far as the screen allows, and clips them there
-      var lane = el.querySelector('.spv-lift__lane');
-      lane.style.left = -room.l + 'px'; lane.style.right = -room.r + 'px';
-      plates[0].style.left = (room.l + W * .06) + 'px';
-      plates[1].style.left = (room.l + W * .94) + 'px';
-      var t0 = performance.now(), cracked = false, landed = false, kicked = false;
+      var t0 = performance.now(), cracked = false, landed = false, set = false;
 
-      function ease(k) { return k < 0 ? 0 : k > 1 ? 1 : k; }
+      function clamp(k) { return k < 0 ? 0 : k > 1 ? 1 : k; }
 
       (function frame(now) {
         var t = now - t0, y, k;
-        var signSX = 1, signX = 0, shadow = 0, logoSX = 1, logoSY = 1, stageX = 0, stageY = 0, rigOpacity = 1;
+        var signSX = 1, signX = 0, shadow = 0, squash = 0, stageX = 0, stageY = 0, rigOpacity = 1;
 
         if (t < T_FALL) {                       // rumble: something heavy is coming
           k = t / RUMBLE;
@@ -163,7 +175,7 @@
           y = START_Y + (-1 - START_Y) * k * k;
           rigOpacity = Math.min(1, k * 4);
           shadow = .25 + .6 * k; signX = Math.sin(t / 12) * 2.5 * k;
-        } else if (t < T_PUSH) {                // it lands on the sign; the sign resists
+        } else if (t < T_PUSH) {                // the plates land on the sign; the sign resists
           k = (t - T_CONTACT) / PUSH; k = 1 - (1 - k) * (1 - k);
           y = -1 + .12 * k;
           signSX = 1 + .03 * k; shadow = .85;
@@ -173,48 +185,52 @@
           k = (t - T_PUSH) / SMASH; k = k * k;
           y = -.88 + .88 * k;
           signSX = 1.03 + .1 * k; shadow = .85;
-        } else {                                // impact: squash, shake, dust
+        } else {                                // impact: shake and dust
           k = t - T_IMPACT;
           y = 0; signSX = 1.13;
           var decay = Math.exp(-k / 160);
-          logoSY = 1 - .09 * Math.exp(-k / 110) * Math.cos(k / 50);
-          logoSX = 1 + (1 - logoSY) * .6;
           stageX = Math.sin(k / 11) * 7 * decay;
           stageY = Math.abs(Math.cos(k / 14)) * 5 * decay;
+          if (t < T_HOP) squash = .07 * Math.exp(-k / 110) * Math.cos(k / 50);   // logo flexes on the bar
           if (!landed) { landed = true; dust(el, 'impact'); }
         }
 
-        // plates: slide off the bar ends, turn to face you, then roll out of frame
-        var slide = ease((t - T_SLIDE) / SLIDE), turn = ease((t - T_TURN) / TURN), roll = ease((t - T_TURN) / ROLL);
-        var slideDist = W * .05 * (1 - (1 - slide) * (1 - slide));
-        var rollDist = Math.max(rollL, rollR) * roll * roll;     // speeds up as it goes
-        if (roll > 0 && !kicked) { kicked = true; dust(el, 'roll'); }
-        plates.forEach(function (plate, i) {
-          var dir = i ? 1 : -1, limit = i ? rollR : rollL;
-          var dx = dir * (slideDist + Math.min(rollDist, limit + 10));  // past the lane edge = out of frame
-          var ry = 68 * (1 - turn * turn * (3 - 2 * turn));
-          var spin = dx / R;                                       // radians rolled so far
-          plate.style.transform = 'translate(-50%, -50%) translateX(' + dx + 'px) rotateY(' + (dir * ry) + 'deg) rotate(' + spin + 'rad)';
-        });
-        // the bar pulls back into the logo once the plates are off it
-        bar.style.transform = 'scaleX(' + (1 - .3 * slide) + ')';
-        bar.style.opacity = 1 - slide;
+        // after landing: the logo hops off the bar, then sets down on the ground
+        var logoY = ON_BAR;
+        if (t >= T_HOP && t < T_DROP) {
+          k = clamp((t - T_HOP) / HOP); k = 1 - (1 - k) * (1 - k);
+          logoY = ON_BAR + HOP_HEIGHT * k;
+        } else if (t >= T_DROP && t < T_SET) {
+          k = clamp((t - T_DROP) / DROP); k = k * k;
+          logoY = (ON_BAR + HOP_HEIGHT) * (1 - k);
+        } else if (t >= T_SET) {
+          logoY = 0;
+          squash = .06 * Math.exp(-(t - T_SET) / 90) * Math.cos((t - T_SET) / 45);
+          if (!set) { set = true; dust(el, 'set'); }
+        }
 
-        // the sign's top edge follows the barbell's bottom edge, so it's crushed flat
+        // the barbell rolls away from the viewer: it drifts up, shrinks and fades behind the logo
+        var roll = clamp((t - T_HOP) / ROLL), r2 = roll * roll;
+        barbell.style.transform = 'translateY(' + (-r2 * 60) + '%) scale(' + (1 - .45 * r2) + ')';
+        barbell.style.opacity = roll ? Math.max(0, 1 - r2 * 1.1) : 1;
+        barbell.style.filter = roll ? 'blur(' + (r2 * 1.5) + 'px)' : '';
+
+        // the sign's top edge follows the plates' bottom edge, so it's crushed flat
         var signSY = Math.max(0.02, Math.min(1, -y));
 
         rig.style.opacity = rigOpacity;
         rig.style.transform = 'translateY(' + (y * 100) + '%)';
-        logo.style.transform = 'scale(' + logoSX + ',' + logoSY + ')';
+        logo.style.transform = 'translateY(' + (logoY * 100) + '%) scale(' + (1 + squash * .6) + ',' + (1 - squash) + ')';
         sign.style.transform = 'translateX(' + signX + 'px) scale(' + signSX + ',' + signSY + ')';
         sign.style.setProperty('--spv-shadow', shadow);
         if (t > T_IMPACT) sign.style.opacity = Math.max(0, 1 - (t - T_IMPACT) / 250);
         stage.style.transform = 'translate(' + stageX + 'px,' + stageY + 'px)';
 
-        if (t < T_END + 100) requestAnimationFrame(frame);
+        if (t < T_END) requestAnimationFrame(frame);
         else {
-          rig.style.transform = logo.style.transform = stage.style.transform = '';
-          sign.style.display = bar.style.display = lane.style.display = 'none';
+          rig.style.transform = stage.style.transform = '';
+          logo.style.transform = 'none';
+          sign.style.display = barbell.style.display = 'none';
         }
       })(t0);
     }
