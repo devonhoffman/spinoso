@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vacancy Replace Demo</title>
+  <link rel="stylesheet" href="vacancy-replace.css">
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #fff; color: #1b1b1b; }
+    .spacer { min-height: 70vh; display: grid; place-items: center; color: #888; padding: 0 16px; text-align: center; }
+    section { padding: 40px 16px 120px; }
+  </style>
+</head>
+<body>
+  <div class="spacer">Scroll down ↓</div>
+
+  <section>
+    <!-- ============ COPY FROM HERE ============ -->
+    <figure class="vr" data-vr style="--vr-glow:#0b6b45; --vr-facade:#26302b;">
+      <div class="vr__stage">
+        <div class="vr__facade">
+          <div class="vr__bay">
+            <div class="vr__vacant" aria-hidden="true">
+              <span class="vr__vacant-kicker">Space Available</span>
+              <span class="vr__vacant-title">For Lease</span>
+              <span class="vr__vacant-meta">Vacant Anchor · 100,000 SF</span>
+            </div>
+            <img class="vr__logo" src="img/dicks-house-of-sport.png" alt="DICK'S House of Sport" width="500" height="279">
+          </div>
+          <div class="vr__windows" aria-hidden="true">
+            <span class="vr__window"></span>
+            <span class="vr__window vr__window--door"></span>
+            <span class="vr__window"></span>
+          </div>
+        </div>
+        <button class="vr__replay" type="button">↻ Replay</button>
+      </div>
+      <figcaption class="vr__caption">
+        <span class="vr__status vr__status--before">Vacant</span>
+        <span class="vr__status vr__status--after">Now Open</span>
+        <span class="vr__caption-text">A former vacant anchor box, re-tenanted by DICK'S House of Sport.</span>
+      </figcaption>
+    </figure>
+    <!-- ============ COPY TO HERE ============ -->
+  </section>
+
+  <script src="vacancy-replace.js"></script>
+</body>
+</html>
