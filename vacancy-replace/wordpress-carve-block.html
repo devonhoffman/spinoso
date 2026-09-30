@@ -1,0 +1,265 @@
+<div class="spv-carve" data-spv-carve>
+  <div class="spv-carve__stage">
+    <img class="spv-carve__logo" src="/wp-content/uploads/2026/09/MJR-Logo.png" alt="MJR Cinemas">
+    <canvas class="spv-carve__fx" aria-hidden="true"></canvas>
+  </div>
+</div>
+<style>
+  .spv-carve { max-width: 360px; margin: 0 auto 24px; }
+  .spv-carve__stage { position: relative; padding: 8% 6%; }
+  .spv-carve__logo { display: block; width: 100%; height: auto; margin: 0; }
+  .spv-carve.is-armed:not(.is-done) .spv-carve__logo { opacity: 0; }
+  .spv-carve__fx { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; pointer-events: none; }
+</style>
+<script>
+  (function () {
+    var HOLD_MS = 1000;       // how long it must be fully in view before carving starts
+    var SPEED = 1;            // 1.5 = everything 50% slower, 0.8 = faster
+    var STONE = '#EDEDE6';    // page background; the stone matches it
+
+    var CARVE = 2800 * SPEED, PAUSE = 300 * SPEED, PAINT = 1500 * SPEED, FADE = 900 * SPEED;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function layer(w, h) { var c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+    function rand(a, b) { return a + Math.random() * (b - a); }
+    function smooth(k) { k = Math.max(0, Math.min(1, k)); return k * k * (3 - 2 * k); }
+
+    function setup(el) {
+      var img = el.querySelector('.spv-carve__logo');
+      var canvas = el.querySelector('.spv-carve__fx');
+      var ctx = canvas.getContext('2d');
+      var dpr = Math.min(2, window.devicePixelRatio || 1);
+      var cw = Math.round(canvas.offsetWidth * dpr), ch = Math.round(canvas.offsetHeight * dpr);
+      canvas.width = cw; canvas.height = ch;
+
+      // where the logo and the stone sit inside the canvas (device pixels)
+      var cr = canvas.getBoundingClientRect(), ir = img.getBoundingClientRect(), sr = el.querySelector('.spv-carve__stage').getBoundingClientRect();
+      var lx = Math.round((ir.left - cr.left) * dpr), ly = Math.round((ir.top - cr.top) * dpr);
+      var lw = Math.round(ir.width * dpr), lh = Math.round(ir.height * dpr);
+      var sx = (sr.left - cr.left) * dpr, sy = (sr.top - cr.top) * dpr, sw = sr.width * dpr, sh = sr.height * dpr;
+
+      // --- stone texture: speckled grain in the page color, fading out at the edges ---
+      var tile = layer(96, 96), tc = tile.getContext('2d'), td = tc.createImageData(96, 96);
+      for (var i = 0; i < td.data.length; i += 4) {
+        var v = Math.random(), dark = v < .5;
+        td.data[i] = td.data[i + 1] = dark ? 120 : 255; td.data[i + 2] = dark ? 105 : 250;
+        td.data[i + 3] = Math.random() < .08 ? 60 : Math.round(Math.abs(v - .5) * 34);
+      }
+      tc.putImageData(td, 0, 0);
+      var stone = layer(cw, ch), sc = stone.getContext('2d');
+      sc.fillStyle = sc.createPattern(tile, 'repeat'); sc.fillRect(sx, sy, sw, sh);
+      for (var n = 0; n < 60; n++) {   // a few larger pits
+        sc.fillStyle = 'rgba(110,104,90,' + rand(.05, .15) + ')';
+        sc.beginPath(); sc.arc(sx + rand(0, sw), sy + rand(0, sh), rand(.6, 2) * dpr, 0, 7); sc.fill();
+      }
+      sc.globalCompositeOperation = 'destination-in';
+      sc.save(); sc.translate(sx + sw / 2, sy + sh / 2); sc.scale(1, sh / sw);
+      var fade = sc.createRadialGradient(0, 0, sw * .3, 0, 0, sw * .56);
+      fade.addColorStop(0, '#000'); fade.addColorStop(1, 'rgba(0,0,0,0)');
+      sc.fillStyle = fade; sc.fillRect(-sw, -sw, sw * 2, sw * 2); sc.restore();
+
+      // --- the logo as a solid shape, to carve with ---
+      var shape = layer(lw, lh), shc = shape.getContext('2d');
+      shc.drawImage(img, 0, 0, lw, lh);
+      var solid = null;
+      try {
+        // cut the colored/dark parts; leave white parts of the logo standing as raised stone
+        var px = shc.getImageData(0, 0, lw, lh);
+        for (var j = 0; j < px.data.length; j += 4) {
+          var lum = (px.data[j] * .299 + px.data[j + 1] * .587 + px.data[j + 2] * .114) / 255;
+          var cut = px.data[j + 3] > 110 && lum < .86;
+          px.data[j] = px.data[j + 1] = px.data[j + 2] = 0; px.data[j + 3] = cut ? 255 : 0;
+        }
+        shc.putImageData(px, 0, 0);
+        solid = px.data;
+      } catch (e) {
+        // image served from another domain: carve its whole silhouette instead
+        shc.globalCompositeOperation = 'source-in'; shc.fillStyle = '#000'; shc.fillRect(0, 0, lw, lh);
+      }
+
+      var depth = Math.max(1.5, lh * .025);
+      function rim(dx, dy, color) {
+        var c = layer(lw, lh), x = c.getContext('2d');
+        x.drawImage(shape, 0, 0);
+        x.globalCompositeOperation = 'destination-out'; x.drawImage(shape, dx, dy);
+        x.globalCompositeOperation = 'source-in'; x.fillStyle = color; x.fillRect(0, 0, lw, lh);
+        return c;
+      }
+      // recessed floor of the cut, slightly darker stone with grain
+      var floor = layer(lw, lh), fc = floor.getContext('2d');
+      fc.fillStyle = '#d3d2c6'; fc.fillRect(0, 0, lw, lh);
+      fc.globalAlpha = .9; fc.fillStyle = fc.createPattern(tile, 'repeat'); fc.fillRect(0, 0, lw, lh); fc.globalAlpha = 1;
+      fc.globalCompositeOperation = 'destination-in'; fc.drawImage(shape, 0, 0);
+      // walls of the cut: shadowed top-left, lit bottom-right
+      var walls = layer(lw, lh), wc = walls.getContext('2d');
+      wc.drawImage(rim(depth, depth, 'rgba(70,64,52,.7)'), 0, 0);
+      wc.drawImage(rim(depth * .5, depth * .5, 'rgba(70,64,52,.35)'), 0, 0);
+      wc.drawImage(rim(-depth * .7, -depth * .7, 'rgba(255,255,252,.85)'), 0, 0);
+
+      // --- which spots are actually part of the logo (for the chisel path) ---
+      var cell = Math.max(4, Math.round(lh / 16)), cells = [];
+      for (var gy = 0; gy < lh; gy += cell) for (var gx = 0; gx < lw; gx += cell) {
+        if (solid) {   // keep this spot if any part of it is logo, so thin strokes get carved too
+          var hit = false;
+          for (var sy2 = 0; sy2 < cell && !hit; sy2 += 2) for (var sx2 = 0; sx2 < cell && !hit; sx2 += 2) {
+            var qx = Math.min(lw - 1, gx + sx2), qy = Math.min(lh - 1, gy + sy2);
+            if (solid[(qy * lw + qx) * 4 + 3] > 40) hit = true;
+          }
+          if (!hit) continue;
+        }
+        cells.push({ x: gx + cell / 2, y: gy + cell / 2, order: gx + rand(0, lw * .06) + Math.abs(gy - lh / 2) * .15 });
+      }
+      cells.sort(function (a, b) { return a.order - b.order; });
+
+      return { el: el, img: img, canvas: canvas, ctx: ctx, dpr: dpr, cw: cw, ch: ch, lx: lx, ly: ly, lw: lw, lh: lh,
+        stone: stone, floor: floor, walls: walls, cells: cells, cell: cell,
+        cut: layer(lw, lh), paint: layer(lw, lh), tmp: layer(lw, lh) };
+    }
+
+    function drawStone(s) {
+      s.ctx.clearRect(0, 0, s.cw, s.ch);
+      s.ctx.drawImage(s.stone, 0, 0);
+    }
+
+    function drawChisel(ctx, x, y, size, tap, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y - tap); ctx.rotate(-.6);
+      var L = size;
+      ctx.fillStyle = 'rgba(0,0,0,.18)';                         // soft shadow on the stone
+      ctx.beginPath(); ctx.ellipse(L * .15, L * .05, L * .12, L * .03, 0, 0, 7); ctx.fill();
+      var steel = ctx.createLinearGradient(-L * .04, 0, L * .04, 0);
+      steel.addColorStop(0, '#6f757c'); steel.addColorStop(.5, '#e4e7ea'); steel.addColorStop(1, '#5a5f65');
+      ctx.fillStyle = steel;                                     // blade
+      ctx.beginPath(); ctx.moveTo(-L * .045, -L * .02); ctx.lineTo(L * .045, -L * .02); ctx.lineTo(L * .035, -L * .5); ctx.lineTo(-L * .035, -L * .5); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(-L * .045, -L * .02); ctx.lineTo(L * .045, -L * .02); ctx.lineTo(0, L * .02); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#9aa0a6'; ctx.fillRect(-L * .05, -L * .56, L * .1, L * .06);   // ferrule
+      var wood = ctx.createLinearGradient(-L * .06, 0, L * .06, 0);
+      wood.addColorStop(0, '#6b4424'); wood.addColorStop(.5, '#b07a45'); wood.addColorStop(1, '#5a381c');
+      ctx.fillStyle = wood;                                      // handle
+      ctx.beginPath(); ctx.moveTo(-L * .055, -L * .56); ctx.lineTo(L * .055, -L * .56); ctx.lineTo(L * .065, -L); ctx.quadraticCurveTo(0, -L * 1.04, -L * .065, -L); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+
+    function play(s) {
+      var ctx = s.ctx, t0 = performance.now(), revealed = 0, parts = [];
+      var cutCtx = s.cut.getContext('2d'), paintCtx = s.paint.getContext('2d'), tmpCtx = s.tmp.getContext('2d');
+      var tipX = s.cells.length ? s.cells[0].x : 0, tipY = s.cells.length ? s.cells[0].y : 0;
+      var T_PAINT = CARVE + PAUSE, T_FADE = T_PAINT + PAINT, T_END = T_FADE + FADE;
+      var rows = 3, bandH = s.lh / rows;
+
+      function chip(x, y) {
+        var gx = s.lx + x, gy = s.ly + y, a = rand(-Math.PI * .95, -Math.PI * .05);
+        var v = rand(1.5, 4.5) * s.dpr;
+        parts.push({ x: gx, y: gy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: rand(.8, 2.2) * s.dpr, rot: rand(0, 6), life: 1,
+          color: Math.random() < .5 ? '#cfcfc3' : '#b9b8ab', dust: false });
+        if (Math.random() < .35) parts.push({ x: gx, y: gy, vx: rand(-.4, .4) * s.dpr, vy: rand(-.8, -.2) * s.dpr, r: rand(3, 6) * s.dpr, life: 1, dust: true });
+      }
+
+      (function frame(now) {
+        var t = now - t0;
+
+        // 1. chisel away cells of the logo, left to right
+        var target = Math.floor(s.cells.length * smooth(t / CARVE * 1.02));
+        while (revealed < Math.min(target, s.cells.length)) {
+          var c = s.cells[revealed++];
+          cutCtx.fillStyle = '#000'; cutCtx.beginPath();
+          for (var p = 0; p < 6; p++) {
+            var ang = p / 6 * Math.PI * 2 + rand(-.3, .3), rr = s.cell * rand(.7, 1.05);
+            cutCtx[p ? 'lineTo' : 'moveTo'](c.x + Math.cos(ang) * rr, c.y + Math.sin(ang) * rr);
+          }
+          cutCtx.fill();
+          if (Math.random() < .3) chip(c.x, c.y);
+          tipX = c.x; tipY = c.y;
+        }
+        if (t > CARVE && revealed < s.cells.length) { cutCtx.fillStyle = '#000'; cutCtx.fillRect(0, 0, s.lw, s.lh); revealed = s.cells.length; }
+
+        // 2. paint brushes into the grooves in three passes
+        var pk = Math.max(0, Math.min(1, (t - T_PAINT) / PAINT));
+        if (pk > 0) {
+          paintCtx.clearRect(0, 0, s.lw, s.lh);
+          paintCtx.lineCap = 'round'; paintCtx.strokeStyle = '#000';
+          for (var r = 0; r < rows; r++) {
+            var rk = Math.max(0, Math.min(1, pk * rows - r)); if (!rk) break;
+            var y0 = bandH * (r + .5), ltr = r % 2 === 0;
+            var xa = ltr ? -bandH * .3 : s.lw + bandH * .3, xb = xa + (ltr ? 1 : -1) * (s.lw + bandH * .6) * rk;
+            for (var b = -1; b <= 1; b++) {        // a few bristle lines per stroke for a ragged edge
+              paintCtx.lineWidth = bandH * (1.25 + b * .12);
+              paintCtx.beginPath(); paintCtx.moveTo(xa, y0 + b * bandH * .08);
+              paintCtx.quadraticCurveTo((xa + xb) / 2, y0 + b * bandH * .08 + bandH * .12 * (ltr ? 1 : -1), xb, y0 - b * bandH * .06);
+              paintCtx.stroke();
+            }
+          }
+          paintCtx.globalCompositeOperation = 'source-in';
+          paintCtx.drawImage(s.img, 0, 0, s.lw, s.lh);
+          paintCtx.globalCompositeOperation = 'source-over';
+        }
+
+        // 3. the stone and the carving fade away, leaving the logo itself
+        var fk = smooth((t - T_FADE) / FADE);
+
+        ctx.clearRect(0, 0, s.cw, s.ch);
+        ctx.globalAlpha = 1 - fk;
+        ctx.drawImage(s.stone, 0, 0);                                    // the stone grain
+        tmpCtx.globalCompositeOperation = 'source-over'; tmpCtx.clearRect(0, 0, s.lw, s.lh); tmpCtx.drawImage(s.floor, 0, 0);
+        tmpCtx.globalCompositeOperation = 'destination-in'; tmpCtx.drawImage(s.cut, 0, 0);
+        ctx.drawImage(s.tmp, s.lx, s.ly);                                // the floor of the cut
+        ctx.globalAlpha = 1;
+        if (pk > 0) ctx.drawImage(s.paint, s.lx, s.ly);                  // paint laid into the cut
+        tmpCtx.globalCompositeOperation = 'source-over'; tmpCtx.clearRect(0, 0, s.lw, s.lh); tmpCtx.drawImage(s.walls, 0, 0);
+        tmpCtx.globalCompositeOperation = 'destination-in'; tmpCtx.drawImage(s.cut, 0, 0);
+        ctx.globalAlpha = (1 - fk) * (pk > 0 ? .75 : 1);
+        ctx.drawImage(s.tmp, s.lx, s.ly);                                // the cut's walls, over the paint
+        ctx.globalAlpha = 1;
+
+        // chips and dust
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var q = parts[i];
+          if (q.dust) { q.x += q.vx; q.y += q.vy; q.r += .15 * s.dpr; q.life -= .025; }
+          else { q.vy += .22 * s.dpr; q.x += q.vx; q.y += q.vy; q.rot += .2; q.life -= .018; }
+          if (q.life <= 0) { parts.splice(i, 1); continue; }
+          ctx.save(); ctx.globalAlpha = q.life * (q.dust ? .25 : 1);
+          if (q.dust) { ctx.fillStyle = '#b8b3a3'; ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, 7); ctx.fill(); }
+          else { ctx.translate(q.x, q.y); ctx.rotate(q.rot); ctx.fillStyle = q.color; ctx.fillRect(-q.r, -q.r * .6, q.r * 2, q.r * 1.2); }
+          ctx.restore();
+        }
+
+        // the chisel follows the cut, tapping, then lifts away
+        var chiselA = t < CARVE ? Math.min(1, t / 200) : Math.max(0, 1 - (t - CARVE) / (PAUSE + 150));
+        if (chiselA > 0) {
+          var tap = Math.abs(Math.sin(t / 55)) * s.lh * .05 + (t > CARVE ? (t - CARVE) * .08 * s.dpr : 0);
+          drawChisel(ctx, s.lx + tipX, s.ly + tipY, s.lh * .7, tap, chiselA);
+        }
+
+        if (t < T_END || parts.length) requestAnimationFrame(frame);
+        else { s.el.classList.add('is-done'); ctx.clearRect(0, 0, s.cw, s.ch); }
+      })(t0);
+    }
+
+    function init(el) {
+      var img = el.querySelector('.spv-carve__logo');
+      if (!img.naturalWidth) return;
+      el.classList.add('is-armed');
+      var s = setup(el);
+      drawStone(s);
+      if (!('IntersectionObserver' in window)) { play(s); return; }
+      var timer;
+      var io = new IntersectionObserver(function (entries) {
+        // only start once it's (almost) fully on screen; cancel if they scroll past first
+        if (entries[0].intersectionRatio >= .95) {
+          timer = timer || setTimeout(function () { io.disconnect(); play(s); }, HOLD_MS);
+        } else {
+          clearTimeout(timer); timer = null;
+        }
+      }, { threshold: [0, .95, 1] });
+      io.observe(el.querySelector('.spv-carve__stage'));
+    }
+
+    document.querySelectorAll('[data-spv-carve]:not([data-spv-ready])').forEach(function (el) {
+      el.setAttribute('data-spv-ready', '');
+      if (reduce) return;
+      var img = el.querySelector('.spv-carve__logo');
+      if (img.complete) init(el); else img.addEventListener('load', function () { init(el); });
+    });
+  })();
+</script>
