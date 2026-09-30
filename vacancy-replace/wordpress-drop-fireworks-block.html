@@ -1,0 +1,118 @@
+<div class="spv-drop" data-spv-drop data-colors="#0b6b45,#f7931e,#ffc93c,#2fb46e,#e4572e">
+  <div class="spv-drop__stage">
+    <div class="spv-drop__placeholder">
+      <span class="spv-drop__small">Space</span>
+      <span class="spv-drop__big">Available</span>
+    </div>
+    <img class="spv-drop__logo" src="https://YOUR-SITE.com/wp-content/uploads/dicks-house-of-sport.png" alt="DICK'S House of Sport">
+  </div>
+  <canvas class="spv-drop__fx" aria-hidden="true"></canvas>
+</div>
+<style>
+  .spv-drop { position: relative; max-width: 360px; margin: 0 auto 24px; }
+  .spv-drop__stage { position: relative; aspect-ratio: 500 / 279; }
+  .spv-drop__placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed #b5b9be; border-radius: 4px; background: #f4f5f6; color: #8a8f96; text-transform: uppercase; line-height: 1; animation: spv-breathe 2.4s ease-in-out infinite; }
+  .spv-drop__small { font-size: 13px; letter-spacing: .35em; font-weight: 600; }
+  .spv-drop__big { font-size: clamp(26px, 6vw, 40px); font-weight: 800; letter-spacing: .06em; margin-top: 8px; }
+  .spv-drop__logo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; margin: 0; opacity: 0; transform-origin: 50% 100%; }
+  .spv-drop__fx { position: absolute; left: 0; top: -60%; width: 100%; height: 190%; pointer-events: none; z-index: 2; }
+  .spv-drop.is-live .spv-drop__placeholder { animation: spv-out .45s cubic-bezier(.5, 0, .9, .4) forwards; }
+  .spv-drop.is-live .spv-drop__logo { animation: spv-in .9s linear .35s forwards; }
+  .spv-drop.is-live .spv-drop__stage { animation: spv-thud .35s ease-out .72s; }
+  @keyframes spv-breathe { 50% { border-color: #d0d3d7; } }
+  @keyframes spv-out {
+    0%   { transform: scale(1); opacity: 1; }
+    25%  { transform: scale(1.04); }
+    100% { transform: translateY(30%) scale(.85); opacity: 0; }
+  }
+  @keyframes spv-in {
+    0%   { opacity: 0; transform: translateY(-160%) scale(1.05); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+    8%   { opacity: 1; }
+    42%  { transform: translateY(0) scale(1.08, .88); animation-timing-function: ease-out; }
+    58%  { transform: translateY(-9%) scale(.97, 1.04); animation-timing-function: ease-in; }
+    72%  { transform: translateY(0) scale(1.03, .97); animation-timing-function: ease-out; }
+    84%  { transform: translateY(-2%) scale(1); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes spv-thud { 30% { transform: translateY(3px); } 100% { transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-drop__placeholder { display: none; }
+    .spv-drop__logo { opacity: 1; animation: none !important; }
+  }
+</style>
+<script>
+  (function () {
+    var HOLD_MS = 1000;       // how long it must stay in view before switching
+    var IMPACT_MS = 730;      // when the logo lands (matches the CSS timing)
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function fireworks(el) {
+      var canvas = el.querySelector('.spv-drop__fx');
+      var ctx = canvas.getContext('2d');
+      var dpr = window.devicePixelRatio || 1;
+      var w = canvas.offsetWidth, h = canvas.offsetHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+      var colors = (el.getAttribute('data-colors') || '#0b6b45,#f7931e,#ffc93c').split(',');
+      var parts = [];
+
+      function burst(x, y, count, power) {
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        for (var i = 0; i < count; i++) {
+          var a = (Math.PI * 2 * i) / count + Math.random() * .2;
+          var s = power * (.6 + Math.random() * .5);
+          parts.push({ x: x, y: y, px: x, py: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+            life: 1, decay: .01 + Math.random() * .01, color: Math.random() < .3 ? colors[Math.floor(Math.random() * colors.length)] : color });
+        }
+      }
+
+      // the logo fills the canvas width, vertically from ~31.6% to ~84.2%
+      var cx = w / 2, top = h * .316, bottom = h * .842;
+      burst(cx, (top + bottom) / 2, 64, 7);
+      setTimeout(function () { burst(w * .15, top, 44, 5.5); }, 240);
+      setTimeout(function () { burst(w * .85, top, 44, 5.5); }, 440);
+      setTimeout(function () { burst(cx, top - h * .12, 54, 6.5); }, 700);
+
+      var start = performance.now();
+      (function frame(now) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineCap = 'round';
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i];
+          p.px = p.x; p.py = p.y;
+          p.vx *= .96; p.vy = p.vy * .96 + .09;
+          p.x += p.vx; p.y += p.vy;
+          p.life -= p.decay;
+          if (p.life <= 0) { parts.splice(i, 1); continue; }
+          ctx.globalAlpha = p.life;
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth = 3.5 * p.life + 1;
+          ctx.beginPath(); ctx.moveTo(p.px - p.vx * 2, p.py - p.vy * 2); ctx.lineTo(p.x, p.y); ctx.stroke();
+        }
+        if (parts.length || now - start < 900) requestAnimationFrame(frame);
+        else ctx.clearRect(0, 0, w, h);
+      })(start);
+    }
+
+    function play(el) {
+      el.classList.add('is-live');
+      setTimeout(function () { fireworks(el); }, IMPACT_MS);
+    }
+
+    document.querySelectorAll('[data-spv-drop]:not([data-spv-ready])').forEach(function (el) {
+      el.setAttribute('data-spv-ready', '');
+      if (reduce) return;
+      if (!('IntersectionObserver' in window)) { play(el); return; }
+      var timer;
+      var io = new IntersectionObserver(function (entries) {
+        // only start once it's (almost) fully on screen; cancel if they scroll past first
+        if (entries[0].intersectionRatio >= .95) {
+          timer = timer || setTimeout(function () { io.disconnect(); play(el); }, HOLD_MS);
+        } else {
+          clearTimeout(timer); timer = null;
+        }
+      }, { threshold: [0, .95, 1] });
+      io.observe(el.querySelector('.spv-drop__stage'));
+    });
+  })();
+</script>
