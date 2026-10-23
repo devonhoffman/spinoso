@@ -1,57 +1,55 @@
-<!-- ==========================================================================
-  XLERATOR Hand Dryer - Exploded View Animation
-  Paste this whole snippet into a WordPress "Custom HTML" block (or any page
-  builder HTML widget). Everything is scoped to #xlerator-interactive-stage.
-  Note: the snippet intentionally contains no blank lines so WordPress'
-  auto-paragraph filter cannot inject <p> tags into the markup or script.
-=========================================================================== -->
+<div id="ai-custom-widget-xlerator-7q4k2m">
+<!-- XLERATOR Hand Dryer - Exploded View Animation
+  Paste this whole block into one Elementor "HTML" widget (or a WordPress
+  "Custom HTML" block). Every style and script is scoped to
+  #ai-custom-widget-xlerator-7q4k2m. GSAP 3.12.5 is loaded from cdnjs only if
+  the page doesn't already have it. The block contains no blank lines so the
+  WordPress auto-paragraph filter cannot inject <p> tags. -->
 <style>
-#xlerator-interactive-stage{--xl-accent:#d2232a;--xl-ink:#16202a;--xl-line:#1f2a37;--xl-tile:#f3f4f5;--xl-grout:#c6ccd2;--xl-t:clamp(44px,5.4vw,88px);--xl-g:2px;position:relative;display:block;width:100%;max-width:100%;aspect-ratio:16/9;min-height:650px;max-height:100vh;margin:0;padding:0;overflow:hidden;isolation:isolate;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.2;color:var(--xl-ink);text-align:left;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;background:var(--xl-tile)}
-#xlerator-interactive-stage *,#xlerator-interactive-stage *::before,#xlerator-interactive-stage *::after{box-sizing:border-box}
+#ai-custom-widget-xlerator-7q4k2m{position:relative;display:block;width:100%;max-width:100%;margin:0;padding:0}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage{--xl-accent:#d2232a;--xl-ink:#16202a;--xl-line:#1f2a37;--xl-tile:#f3f4f5;--xl-grout:#c6ccd2;--xl-t:clamp(44px,5.4vw,88px);--xl-g:2px;--xl-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;position:relative;display:block;width:100%;max-width:100%;aspect-ratio:16/9;min-height:650px;max-height:100vh;margin:0;padding:0;overflow:hidden;isolation:isolate;box-sizing:border-box;font-family:var(--xl-font);font-size:16px;line-height:1.2;color:var(--xl-ink);text-align:left;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;background:var(--xl-tile)}
 /* --- Bathroom tile wall (pure CSS running-bond subway tile) --- */
-#xlerator-interactive-stage .xl-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 60% at 50% 42%,rgba(255,255,255,.65),rgba(255,255,255,0) 70%),linear-gradient(to bottom,rgba(255,255,255,.75) 0,rgba(255,255,255,0) 22%,rgba(0,0,0,0) 78%,rgba(0,0,0,.045) 100%) 0 0/var(--xl-t) calc(var(--xl-t)/2),linear-gradient(to bottom,var(--xl-grout) 0 var(--xl-g),transparent var(--xl-g)) 0 0/var(--xl-t) calc(var(--xl-t)/2),conic-gradient(from 0deg at var(--xl-g) 50%,transparent 0 75%,var(--xl-grout) 0) 0 0/var(--xl-t) var(--xl-t),conic-gradient(from 0deg at var(--xl-g) 50%,transparent 0 75%,var(--xl-grout) 0) calc(var(--xl-t)/2) calc(var(--xl-t)/2)/var(--xl-t) var(--xl-t),var(--xl-tile)}
-#xlerator-interactive-stage .xl-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 85% 75% at 50% 45%,rgba(20,30,40,0) 55%,rgba(20,30,40,.16) 100%),linear-gradient(to bottom,rgba(255,255,255,0) 60%,rgba(20,30,40,.06) 100%)}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 60% at 50% 42%,rgba(255,255,255,.65),rgba(255,255,255,0) 70%),linear-gradient(to bottom,rgba(255,255,255,.75) 0,rgba(255,255,255,0) 22%,rgba(0,0,0,0) 78%,rgba(0,0,0,.045) 100%) 0 0/var(--xl-t) calc(var(--xl-t)/2),linear-gradient(to bottom,var(--xl-grout) 0 var(--xl-g),transparent var(--xl-g)) 0 0/var(--xl-t) calc(var(--xl-t)/2),conic-gradient(from 0deg at var(--xl-g) 50%,transparent 0 75%,var(--xl-grout) 0) 0 0/var(--xl-t) var(--xl-t),conic-gradient(from 0deg at var(--xl-g) 50%,transparent 0 75%,var(--xl-grout) 0) calc(var(--xl-t)/2) calc(var(--xl-t)/2)/var(--xl-t) var(--xl-t),var(--xl-tile)}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 85% 75% at 50% 45%,rgba(20,30,40,0) 55%,rgba(20,30,40,.16) 100%),linear-gradient(to bottom,rgba(255,255,255,0) 60%,rgba(20,30,40,.06) 100%)}
 /* --- Product layers --- */
-#xlerator-interactive-stage .xl-shadow{position:absolute;left:50%;top:50%;z-index:1;border-radius:6%;background:rgba(15,22,30,.28);filter:blur(18px);transform:translate(-50%,-50%);pointer-events:none;opacity:0}
-#xlerator-interactive-stage .xl-layers{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .6s ease}
-#xlerator-interactive-stage.is-ready .xl-layers{opacity:1}
-#xlerator-interactive-stage .xl-layer{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);will-change:transform}
-#xlerator-interactive-stage .xl-float{position:relative;width:100%;height:100%;will-change:transform}
-#xlerator-interactive-stage .xl-img{display:block;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;transition:opacity .3s ease;-webkit-user-drag:none}
-#xlerator-interactive-stage .xl-hit{position:absolute;display:block;pointer-events:none}
-#xlerator-interactive-stage.is-exploded .xl-hit{pointer-events:auto;cursor:pointer}
-#xlerator-interactive-stage.has-focus .xl-layer:not(.is-focus) .xl-img{opacity:.35}
-#xlerator-interactive-stage .xl-layer.is-focus{z-index:95!important}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-shadow{position:absolute;left:50%;top:50%;z-index:1;border-radius:6%;background:rgba(15,22,30,.28);filter:blur(18px);transform:translate(-50%,-50%);pointer-events:none;opacity:0}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-layers{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .6s ease}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.is-ready .xl-layers{opacity:1}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-layer{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);will-change:transform}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-float{position:relative;width:100%;height:100%;will-change:transform}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-img{display:block;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;transition:opacity .3s ease;-webkit-user-drag:none}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-hit{position:absolute;display:block;pointer-events:none}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.is-exploded .xl-hit{pointer-events:auto;cursor:pointer}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.has-focus .xl-layer:not(.is-focus) .xl-img{opacity:.35}
 /* --- Leader lines & labels --- */
-#xlerator-interactive-stage .xl-lines{position:absolute;inset:0;z-index:3;width:100%;height:100%;overflow:visible;pointer-events:none}
-#xlerator-interactive-stage .xl-lines polyline{fill:none;stroke:var(--xl-line);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .25s ease}
-#xlerator-interactive-stage .xl-lines circle{fill:var(--xl-accent);stroke:#fff;stroke-width:2}
-#xlerator-interactive-stage .xl-lines polyline.is-focus{stroke:var(--xl-accent);stroke-width:2}
-#xlerator-interactive-stage .xl-labels{position:absolute;inset:0;z-index:4;pointer-events:none}
-#xlerator-interactive-stage .xl-card{position:absolute;left:0;top:0;display:flex;align-items:center;gap:10px;padding:9px 14px;background:rgba(255,255,255,.94);border:1px solid rgba(22,32,42,.1);border-radius:10px;box-shadow:0 8px 24px -10px rgba(15,22,30,.35),0 2px 6px rgba(15,22,30,.06);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-size:15px;font-weight:600;letter-spacing:.01em;opacity:0;transition:border-color .25s ease,box-shadow .25s ease}
-#xlerator-interactive-stage.is-exploded .xl-card{pointer-events:auto;cursor:default}
-#xlerator-interactive-stage .xl-card-num{color:var(--xl-accent);font-weight:800;font-variant-numeric:tabular-nums}
-#xlerator-interactive-stage .xl-card-name{padding-left:10px;border-left:1px solid rgba(22,32,42,.22)}
-#xlerator-interactive-stage .xl-card.is-focus{border-color:var(--xl-accent);box-shadow:0 10px 28px -10px rgba(210,35,42,.45),0 2px 6px rgba(15,22,30,.08)}
-#xlerator-interactive-stage.xl-compact .xl-card{gap:6px;padding:5px 8px;border-radius:7px;font-size:11px;white-space:normal;text-align:center;justify-content:center}
-#xlerator-interactive-stage.xl-compact .xl-card-name{padding-left:6px}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-lines{position:absolute;inset:0;z-index:3;width:100%;height:100%;overflow:visible;pointer-events:none}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-lines polyline{fill:none;stroke:var(--xl-line);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .25s ease}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-lines circle{fill:var(--xl-accent);stroke:#fff;stroke-width:2}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-lines polyline.is-focus{stroke:var(--xl-accent);stroke-width:2}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-labels{position:absolute;inset:0;z-index:4;pointer-events:none}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-card{box-sizing:border-box;position:absolute;left:0;top:0;display:flex;align-items:center;gap:10px;padding:9px 14px;background:rgba(255,255,255,.94);border:1px solid rgba(22,32,42,.1);border-radius:10px;box-shadow:0 8px 24px -10px rgba(15,22,30,.35),0 2px 6px rgba(15,22,30,.06);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-family:var(--xl-font);font-size:15px;font-weight:600;line-height:1.25;letter-spacing:.01em;text-transform:none;color:var(--xl-ink);opacity:0;transition:border-color .25s ease,box-shadow .25s ease}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.is-exploded .xl-card{pointer-events:auto;cursor:default}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-card-num{color:var(--xl-accent);font-weight:800;font-variant-numeric:tabular-nums}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-card-name{padding-left:10px;border-left:1px solid rgba(22,32,42,.22)}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-card.is-focus{border-color:var(--xl-accent);box-shadow:0 10px 28px -10px rgba(210,35,42,.45),0 2px 6px rgba(15,22,30,.08)}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.xl-compact .xl-card{gap:6px;padding:5px 8px;border-radius:7px;font-size:11px;white-space:normal;text-align:center;justify-content:center}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.xl-compact .xl-card-name{padding-left:6px}
 /* --- Controls, loader, screen-reader text --- */
-#xlerator-interactive-stage .xl-controls{position:absolute;right:16px;bottom:16px;z-index:6;display:flex;gap:8px}
-#xlerator-interactive-stage .xl-btn{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid rgba(22,32,42,.14);box-shadow:0 4px 14px -6px rgba(15,22,30,.4);color:var(--xl-ink);cursor:pointer;transition:transform .2s ease,background .2s ease}
-#xlerator-interactive-stage .xl-btn:hover{background:#fff;transform:translateY(-1px)}
-#xlerator-interactive-stage .xl-btn:focus-visible{outline:2px solid var(--xl-accent);outline-offset:2px}
-#xlerator-interactive-stage .xl-btn svg{display:block;width:16px;height:16px;fill:currentColor}
-#xlerator-interactive-stage .xl-btn .xl-ico-play{display:none}
-#xlerator-interactive-stage.is-paused .xl-btn .xl-ico-play{display:block}
-#xlerator-interactive-stage.is-paused .xl-btn .xl-ico-pause{display:none}
-#xlerator-interactive-stage .xl-loader{position:absolute;left:50%;top:50%;z-index:5;display:flex;flex-direction:column;align-items:center;gap:12px;transform:translate(-50%,-50%);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:rgba(22,32,42,.6);transition:opacity .4s ease}
-#xlerator-interactive-stage .xl-loader::before{content:"";width:34px;height:34px;border-radius:50%;border:3px solid rgba(22,32,42,.12);border-top-color:var(--xl-accent);animation:xl-spin .9s linear infinite}
-#xlerator-interactive-stage.is-ready .xl-loader{opacity:0;pointer-events:none}
-#xlerator-interactive-stage .xl-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-@keyframes xl-spin{to{transform:rotate(360deg)}}
-@media (max-width:480px){#xlerator-interactive-stage .xl-controls{right:10px;bottom:10px}#xlerator-interactive-stage .xl-btn{width:34px;height:34px}}
-</style>
-<div id="xlerator-interactive-stage" role="region" aria-label="XLERATOR hand dryer exploded view animation">
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-controls{position:absolute;right:16px;bottom:16px;z-index:6;display:flex;gap:8px}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-btn{-webkit-appearance:none;appearance:none;box-sizing:border-box;margin:0;padding:0;min-width:0;min-height:0;font:inherit;line-height:1;letter-spacing:normal;text-transform:none;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid rgba(22,32,42,.14);box-shadow:0 4px 14px -6px rgba(15,22,30,.4);color:var(--xl-ink);cursor:pointer;transition:transform .2s ease,background .2s ease}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-btn:hover{background:#fff;transform:translateY(-1px)}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-btn:focus-visible{outline:2px solid var(--xl-accent);outline-offset:2px}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-btn svg{display:block;width:16px;height:16px;fill:currentColor}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-btn .xl-ico-play{display:none}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.is-paused .xl-btn .xl-ico-play{display:block}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.is-paused .xl-btn .xl-ico-pause{display:none}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-loader{position:absolute;left:50%;top:50%;z-index:5;display:flex;flex-direction:column;align-items:center;gap:12px;transform:translate(-50%,-50%);font-family:var(--xl-font);font-size:13px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:rgba(22,32,42,.6);transition:opacity .4s ease}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-loader::before{content:"";width:34px;height:34px;border-radius:50%;border:3px solid rgba(22,32,42,.12);border-top-color:var(--xl-accent);animation:xl7q4k2m-spin .9s linear infinite}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage.is-ready .xl-loader{opacity:0;pointer-events:none}
+#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@keyframes xl7q4k2m-spin{to{transform:rotate(360deg)}}
+@media (max-width:480px){#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-controls{right:10px;bottom:10px}#ai-custom-widget-xlerator-7q4k2m .xl-stage .xl-btn{width:34px;height:34px}}
+</style><div class="xl-stage" role="region" aria-label="XLERATOR hand dryer exploded view animation">
   <div class="xl-bg" aria-hidden="true"></div>
   <div class="xl-shadow" aria-hidden="true"></div>
   <div class="xl-layers"></div>
@@ -63,16 +61,17 @@
     <button type="button" class="xl-btn" data-xl="replay" aria-label="Replay animation"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5a5.5 5.5 0 1 0 5.4 6.6.9.9 0 0 0-1.8-.4A3.7 3.7 0 1 1 8 4.3c1 0 1.9.4 2.6 1.1L9.1 6.9h4.4V2.5l-1.6 1.6A5.5 5.5 0 0 0 8 2.5z"/></svg></button>
   </div>
   <ol class="xl-sr"></ol>
-</div>
-<script>
+</div><script>
 (function () {
   "use strict";
-  var root = document.getElementById("xlerator-interactive-stage");
+  const WIDGET = "#ai-custom-widget-xlerator-7q4k2m";
+  const $ = (sel) => document.querySelector(WIDGET + " " + sel);
+  const root = $(".xl-stage");
   if (!root || root.__xlInit) return;
   root.__xlInit = true;
-  var GSAP_SRC = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
+  const GSAP_SRC = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
   // ---- Settings (seconds) ------------------------------------------------
-  var CONFIG = {
+  const CONFIG = {
     holdAssembled: 4,      // assembled hold before exploding (also between loops)
     explodeDur: 1.7,       // travel time for each part
     explodeStagger: 0.09,  // delay between parts leaving the stack
@@ -88,7 +87,7 @@
     contentBox: null       // optional {x,y,w,h} fractions of the PNG canvas, used only if
                            // the visible area of a PNG can't be auto-detected (cross-origin)
   };
-  var LAYERS = [
+  const LAYERS = [
     { num: "01", name: "Back Plate", src: "http://staging.exceldryer.com/wp-content/uploads/2026/10/Layered-XLERATOR-13.png", z: 10 },
     { num: "02", name: "Blower Motor & Fan Housing", src: "http://staging.exceldryer.com/wp-content/uploads/2026/10/Layered-XLERATOR-14.png", z: 20 },
     { num: "03", name: "Electronics & Control Assembly", src: "http://staging.exceldryer.com/wp-content/uploads/2026/10/Layered-XLERATOR-9.png", z: 30 },
@@ -97,69 +96,71 @@
     { num: "06", name: "HEPA Pre-Filter", src: "http://staging.exceldryer.com/wp-content/uploads/2026/10/Layered-XLERATOR-12.png", z: 60 },
     { num: "07", name: "Dryer Cover", src: "http://staging.exceldryer.com/wp-content/uploads/2026/10/Layered-XLERATOR-8.png", z: 70 }
   ];
-  var SVGNS = "http://www.w3.org/2000/svg";
-  var layersEl = root.querySelector(".xl-layers");
-  var linesEl = root.querySelector(".xl-lines");
-  var labelsEl = root.querySelector(".xl-labels");
-  var shadowEl = root.querySelector(".xl-shadow");
-  var controlsEl = root.querySelector(".xl-controls");
-  var toggleBtn = root.querySelector('[data-xl="toggle"]');
-  var replayBtn = root.querySelector('[data-xl="replay"]');
-  var srList = root.querySelector(".xl-sr");
-  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var bgUrl = CONFIG.backgroundImage || root.getAttribute("data-bg");
-  if (bgUrl) root.querySelector(".xl-bg").style.background = 'url("' + bgUrl + '") center / cover no-repeat';
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const layersEl = $(".xl-layers");
+  const linesEl = $(".xl-lines");
+  const labelsEl = $(".xl-labels");
+  const shadowEl = $(".xl-shadow");
+  const controlsEl = $(".xl-controls");
+  const loaderEl = $(".xl-loader");
+  const toggleBtn = $('[data-xl="toggle"]');
+  const replayBtn = $('[data-xl="replay"]');
+  const srList = $(".xl-sr");
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const bgUrl = CONFIG.backgroundImage || root.getAttribute("data-bg");
+  if (bgUrl) $(".xl-bg").style.background = 'url("' + bgUrl + '") center / cover no-repeat';
   // ---- Build DOM ---------------------------------------------------------
-  var parts = LAYERS.map(function (L, i) {
-    var el = document.createElement("div");
+  const parts = LAYERS.map((L, i) => {
+    const el = document.createElement("div");
     el.className = "xl-layer";
     el.style.zIndex = L.z;
-    var fl = document.createElement("div");
+    const fl = document.createElement("div");
     fl.className = "xl-float";
-    var img = document.createElement("img");
+    const img = document.createElement("img");
     img.className = "xl-img";
     img.alt = L.name;
     img.decoding = "async";
     img.draggable = false;
-    var hit = document.createElement("span");
+    const hit = document.createElement("span");
     hit.className = "xl-hit";
     fl.appendChild(img);
     fl.appendChild(hit);
     el.appendChild(fl);
     layersEl.appendChild(el);
-    var card = document.createElement("div");
+    const card = document.createElement("div");
     card.className = "xl-card";
     card.innerHTML = '<span class="xl-card-num"></span><span class="xl-card-name"></span>';
     card.firstChild.textContent = L.num;
     card.lastChild.textContent = L.name;
     labelsEl.appendChild(card);
-    var line = document.createElementNS(SVGNS, "polyline");
-    var dot = document.createElementNS(SVGNS, "circle");
+    const line = document.createElementNS(SVGNS, "polyline");
+    const dot = document.createElementNS(SVGNS, "circle");
     dot.setAttribute("r", "4");
     linesEl.appendChild(line);
     linesEl.appendChild(dot);
-    var li = document.createElement("li");
+    const li = document.createElement("li");
     li.textContent = L.num + " " + L.name;
     srList.appendChild(li);
-    return { L: L, i: i, el: el, fl: fl, img: img, hit: hit, card: card, line: line, dot: dot, ok: false };
+    return { L, i, el, fl, img, hit, card, line, dot, ok: false };
   });
   // ---- Asset loading -----------------------------------------------------
   // Each PNG shares the same canvas. We read the opaque bounds of every layer
   // so the product can be fitted tightly and leader lines can point at the
   // visible part rather than the transparent canvas.
   function alphaBox(img) {
-    var nw = img.naturalWidth, nh = img.naturalHeight;
+    const nw = img.naturalWidth, nh = img.naturalHeight;
     try {
-      var s = Math.min(1, 360 / Math.max(nw, nh));
-      var cw = Math.max(1, Math.round(nw * s)), ch = Math.max(1, Math.round(nh * s));
-      var c = document.createElement("canvas");
-      c.width = cw; c.height = ch;
-      var ctx = c.getContext("2d");
+      const s = Math.min(1, 360 / Math.max(nw, nh));
+      const cw = Math.max(1, Math.round(nw * s)), ch = Math.max(1, Math.round(nh * s));
+      const c = document.createElement("canvas");
+      c.width = cw;
+      c.height = ch;
+      const ctx = c.getContext("2d");
       ctx.drawImage(img, 0, 0, cw, ch);
-      var d = ctx.getImageData(0, 0, cw, ch).data;
-      var x0 = cw, y0 = ch, x1 = -1, y1 = -1;
-      for (var y = 0; y < ch; y++) {
-        for (var x = 0; x < cw; x++) {
+      const d = ctx.getImageData(0, 0, cw, ch).data;
+      let x0 = cw, y0 = ch, x1 = -1, y1 = -1;
+      for (let y = 0; y < ch; y++) {
+        for (let x = 0; x < cw; x++) {
           if (d[(y * cw + x) * 4 + 3] > 24) {
             if (x < x0) x0 = x;
             if (x > x1) x1 = x;
@@ -175,45 +176,46 @@
     }
   }
   function fallbackBox(nw, nh) {
-    var f = CONFIG.contentBox;
+    const f = CONFIG.contentBox;
     return f ? { x: f.x * nw, y: f.y * nh, w: f.w * nw, h: f.h * nh } : { x: 0, y: 0, w: nw, h: nh };
   }
   function loadPart(p) {
-    return new Promise(function (resolve) {
-      var done = false;
-      function finish() { if (!done) { done = true; resolve(); } }
-      p.img.onload = function () {
+    return new Promise((resolve) => {
+      let done = false;
+      const finish = () => { if (!done) { done = true; resolve(); } };
+      p.img.onload = () => {
         p.nat = { w: p.img.naturalWidth, h: p.img.naturalHeight };
         p.ok = p.nat.w > 0;
         // Separate CORS probe so a server without CORS headers never breaks display.
-        var probe = new Image();
+        const probe = new Image();
         probe.crossOrigin = "anonymous";
-        probe.onload = function () { p.box = alphaBox(probe); finish(); };
+        probe.onload = () => { p.box = alphaBox(probe); finish(); };
         probe.onerror = finish;
         probe.src = p.L.src;
         setTimeout(finish, 4000);
       };
-      p.img.onerror = function () { p.el.style.display = "none"; finish(); };
+      p.img.onerror = () => { p.el.style.display = "none"; finish(); };
       p.img.src = p.L.src;
-    }).then(function () {
+    }).then(() => {
       if (p.ok) {
-        var b = p.box || fallbackBox(p.nat.w, p.nat.h);
+        const b = p.box || fallbackBox(p.nat.w, p.nat.h);
         b.cx = b.x + b.w / 2;
         b.cy = b.y + b.h / 2;
         p.box = b;
       }
     });
   }
+  // GSAP is loaded from cdnjs only if the page doesn't already provide it.
   function loadGsap() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       if (window.gsap) return resolve(window.gsap);
       if (!document.querySelector('script[src="' + GSAP_SRC + '"]')) {
-        var s = document.createElement("script");
+        const s = document.createElement("script");
         s.src = GSAP_SRC;
         s.async = true;
         document.head.appendChild(s);
       }
-      var t0 = Date.now();
+      const t0 = Date.now();
       (function wait() {
         if (window.gsap) return resolve(window.gsap);
         if (Date.now() - t0 > 15000) return reject(new Error("GSAP failed to load"));
@@ -222,27 +224,29 @@
     });
   }
   // ---- Layout ------------------------------------------------------------
-  var gsap, live = [], W = 0, H = 0, U = null;
+  let gsap = null, live = [], W = 0, H = 0, U = null;
   function computeLayout() {
     W = root.clientWidth;
     H = root.clientHeight;
-    var compact = W < 900 || W / H < 1.3;
+    const compact = W < 900 || W / H < 1.3;
     root.classList.toggle("xl-compact", compact);
     // Union of all visible parts, measured from each canvas' center.
-    var ux0 = Infinity, uy0 = Infinity, ux1 = -Infinity, uy1 = -Infinity;
-    live.forEach(function (p) {
-      var b = p.box, ox = p.nat.w / 2, oy = p.nat.h / 2;
-      ux0 = Math.min(ux0, b.x - ox); uy0 = Math.min(uy0, b.y - oy);
-      ux1 = Math.max(ux1, b.x + b.w - ox); uy1 = Math.max(uy1, b.y + b.h - oy);
+    let ux0 = Infinity, uy0 = Infinity, ux1 = -Infinity, uy1 = -Infinity;
+    live.forEach((p) => {
+      const b = p.box, ox = p.nat.w / 2, oy = p.nat.h / 2;
+      ux0 = Math.min(ux0, b.x - ox);
+      uy0 = Math.min(uy0, b.y - oy);
+      ux1 = Math.max(ux1, b.x + b.w - ox);
+      uy1 = Math.max(uy1, b.y + b.h - oy);
     });
     U = { w: ux1 - ux0, h: uy1 - uy0, cx: (ux0 + ux1) / 2, cy: (uy0 + uy1) / 2 };
-    var s0 = Math.min(W * (compact ? 0.66 : 0.42) / U.w, H * (compact ? 0.62 : 0.76) / U.h);
-    var offX = -U.cx * s0, offY = -U.cy * s0;
-    var margin = Math.max(12, Math.min(W, H) * 0.03);
-    var gap = compact ? 10 : Math.max(28, W * 0.022);
-    var elbow = compact ? 0 : 18;
-    live.forEach(function (p) {
-      var b = p.box;
+    const s0 = Math.min(W * (compact ? 0.66 : 0.42) / U.w, H * (compact ? 0.62 : 0.76) / U.h);
+    const offX = -U.cx * s0, offY = -U.cy * s0;
+    const margin = Math.max(12, Math.min(W, H) * 0.03);
+    const gap = compact ? 10 : Math.max(28, W * 0.022);
+    const elbow = compact ? 0 : 18;
+    live.forEach((p) => {
+      const b = p.box;
       p.s0 = s0;
       p.dw = p.nat.w * s0;
       p.dh = p.nat.h * s0;
@@ -263,35 +267,38 @@
     // large pieces get more room; the widest gap (between 07 and 01) is centred
     // on CONFIG.gapAngle. The exploded scale then shrinks until every part and
     // label fits inside the stage without overlapping anything else.
-    var n = live.length, sizes = live.map(function (p) { return Math.max(p.bw, p.bh); });
-    var avg = sizes.reduce(function (s, v) { return s + v; }, 0) / n;
-    var arcs = sizes.map(function (s, j) { return s + sizes[(j + 1) % n] + avg * 1.2; });
-    var total = arcs.reduce(function (s, v) { return s + v; }, 0);
-    var ang = (W < H ? CONFIG.gapAnglePortrait : CONFIG.gapAngle) + arcs[n - 1] / total * 180;
-    live.forEach(function (p, j) {
-      var a = ang * Math.PI / 180;
+    const n = live.length, sizes = live.map((p) => Math.max(p.bw, p.bh));
+    const avg = sizes.reduce((s, v) => s + v, 0) / n;
+    const arcs = sizes.map((s, j) => s + sizes[(j + 1) % n] + avg * 1.2);
+    const total = arcs.reduce((s, v) => s + v, 0);
+    let ang = (W < H ? CONFIG.gapAnglePortrait : CONFIG.gapAngle) + arcs[n - 1] / total * 180;
+    live.forEach((p, j) => {
+      const a = ang * Math.PI / 180;
       p.cos = Math.cos(a);
       p.sin = Math.sin(a);
       p.side = compact || Math.abs(p.cos) < 0.2 ? 0 : (p.cos > 0 ? 1 : -1);
       ang += arcs[j] / total * 360;
     });
+    const cr = controlsEl.getBoundingClientRect(), rr = root.getBoundingClientRect();
+    const ctrl = [cr.left - rr.left, cr.top - rr.top, cr.right - rr.left, cr.bottom - rr.top];
     function place(sc) {
-      var rx = Infinity, ry = Infinity;
-      live.forEach(function (p) {
-        var hw = p.bw * sc / 2, hh = p.bh * sc / 2, ac = Math.abs(p.cos), as = Math.abs(p.sin);
-        var needX = p.side ? hw + gap + 6 + p.cw : Math.max(hw, p.cw / 2);
+      let rx = Infinity, ry = Infinity;
+      live.forEach((p) => {
+        const hw = p.bw * sc / 2, hh = p.bh * sc / 2, ac = Math.abs(p.cos), as = Math.abs(p.sin);
+        const needX = p.side ? hw + gap + 6 + p.cw : Math.max(hw, p.cw / 2);
         if (ac > 0.01) rx = Math.min(rx, (W / 2 - margin - needX) / ac);
-        var needY = hh + (!p.side && p.sin > 0 ? gap + 4 + p.ch : 0);
+        const needY = hh + (!p.side && p.sin > 0 ? gap + 4 + p.ch : 0);
         if (as > 0.01) ry = Math.min(ry, (H / 2 - margin - needY) / as);
       });
       rx = Math.max(rx, 0);
       ry = Math.max(ry, 0);
-      live.forEach(function (p) {
+      live.forEach((p) => {
         p.sc = sc;
         p.sx = rx * p.cos;
         p.sy = ry * p.sin;
         // Leader line + label geometry in stage pixels.
-        var X = W / 2 + p.sx, Y = H / 2 + p.sy, hw = p.bw * sc / 2, hh = p.bh * sc / 2, A, C;
+        const X = W / 2 + p.sx, Y = H / 2 + p.sy, hw = p.bw * sc / 2, hh = p.bh * sc / 2;
+        let A, C;
         if (p.side) {
           A = [X + p.side * hw * 0.45, Y - hh * 0.05];
           C = [X + p.side * (hw + gap), Y - hh * 0.22];
@@ -313,53 +320,54 @@
       });
       if (!(rx > 0 && ry > 0)) return Infinity;
       // Total overlap area between parts, labels and the playback controls.
-      var pad = 6, area = 0;
-      function ov(r, s) {
-        var w = Math.min(r[2], s[2]) - Math.max(r[0], s[0]) + pad, h = Math.min(r[3], s[3]) - Math.max(r[1], s[1]) + pad;
+      const pad = 6;
+      const ov = (r, s) => {
+        const w = Math.min(r[2], s[2]) - Math.max(r[0], s[0]) + pad, h = Math.min(r[3], s[3]) - Math.max(r[1], s[1]) + pad;
         return w > 0 && h > 0 ? w * h : 0;
-      }
-      for (var i = 0; i < n; i++) {
-        var p = live[i];
+      };
+      let area = 0;
+      for (let i = 0; i < n; i++) {
+        const p = live[i];
         area += ov(p.rCard, ctrl) + ov(p.rPart, ctrl);
-        for (var j = 0; j < n; j++) {
+        for (let j = 0; j < n; j++) {
           if (i === j) continue;
-          var q = live[j];
+          const q = live[j];
           area += ov(p.rCard, q.rPart);
           if (j > i) area += ov(p.rPart, q.rPart) + ov(p.rCard, q.rCard);
         }
       }
       return area;
     }
-    var cr = controlsEl.getBoundingClientRect(), rr = root.getBoundingClientRect();
-    var ctrl = [cr.left - rr.left, cr.top - rr.top, cr.right - rr.left, cr.bottom - rr.top];
     // Largest scale with (almost) no overlap; otherwise the least-overlap scale.
-    var sc = CONFIG.maxScale, best = sc, bestArea = Infinity, area, ok = W * H * 0.0008;
+    const ok = W * H * 0.0008;
+    let sc = CONFIG.maxScale, best = sc, bestArea = Infinity;
     for (;;) {
-      area = place(sc);
+      const area = place(sc);
       if (area < bestArea) { best = sc; bestArea = area; }
       if (area <= ok || sc <= CONFIG.minScale) break;
       sc = Math.max(CONFIG.minScale, sc * 0.95);
     }
     if (best !== sc) place(best);
-    live.forEach(function (p) {
-      var len = 0, pts = p.pl;
-      for (var m = 1; m < pts.length; m++) len += Math.hypot(pts[m][0] - pts[m - 1][0], pts[m][1] - pts[m - 1][1]);
+    live.forEach((p) => {
+      const pts = p.pl;
+      let len = 0;
+      for (let m = 1; m < pts.length; m++) len += Math.hypot(pts[m][0] - pts[m - 1][0], pts[m][1] - pts[m - 1][1]);
       p.len = Math.max(1, len);
-      p.pts = pts.map(function (pt) { return pt[0].toFixed(1) + "," + pt[1].toFixed(1); }).join(" ");
+      p.pts = pts.map((pt) => pt[0].toFixed(1) + "," + pt[1].toFixed(1)).join(" ");
     });
   }
   function applyBase() {
     linesEl.setAttribute("viewBox", "0 0 " + W + " " + H);
-    live.forEach(function (p) {
-      var s = p.el.style;
+    live.forEach((p) => {
+      const s = p.el.style;
       s.width = p.dw + "px";
       s.height = p.dh + "px";
       s.marginLeft = p.offX + "px";
       s.marginTop = p.offY + "px";
-      var origin = p.ox + "px " + p.oy + "px";
+      const origin = p.ox + "px " + p.oy + "px";
       gsap.set(p.el, { xPercent: -50, yPercent: -50, transformOrigin: origin });
       gsap.set(p.fl, { transformOrigin: origin });
-      var b = p.box, hs = p.hit.style;
+      const b = p.box, hs = p.hit.style;
       hs.left = b.x * p.s0 + "px";
       hs.top = b.y * p.s0 + "px";
       hs.width = p.bw + "px";
@@ -371,14 +379,14 @@
       p.card.style.left = p.cl + "px";
       p.card.style.top = p.ct + "px";
     });
-    var ss = shadowEl.style;
-    ss.width = U.w * live[0].s0 * 0.86 + "px";
-    ss.height = U.h * live[0].s0 * 0.9 + "px";
-    ss.marginTop = Math.round(U.h * live[0].s0 * 0.04 + 10) + "px";
+    const ss = shadowEl.style, s0 = live[0].s0;
+    ss.width = U.w * s0 * 0.86 + "px";
+    ss.height = U.h * s0 * 0.9 + "px";
+    ss.marginTop = Math.round(U.h * s0 * 0.04 + 10) + "px";
   }
-  function els(key) { return live.map(function (p) { return p[key]; }); }
+  const els = (key) => live.map((p) => p[key]);
   function setAssembled() {
-    live.forEach(function (p) {
+    live.forEach((p) => {
       gsap.set(p.el, { x: 0, y: 0, scale: 1, rotation: 0 });
       gsap.set(p.line, { strokeDashoffset: p.len, opacity: 0 });
     });
@@ -388,7 +396,7 @@
     gsap.set(shadowEl, { opacity: 1 });
   }
   function setExploded() {
-    live.forEach(function (p) {
+    live.forEach((p) => {
       gsap.set(p.el, { x: p.sx - p.cx, y: p.sy - p.cy, scale: p.sc });
       gsap.set(p.line, { strokeDashoffset: 0, opacity: 1 });
     });
@@ -397,10 +405,10 @@
     gsap.set(shadowEl, { opacity: 0 });
   }
   // ---- Sequencing --------------------------------------------------------
-  var T = { phase: null, floats: [], state: "idle", paused: false, offscreen: false };
+  const T = { phase: null, floats: [], state: "idle", paused: false, offscreen: false };
   function syncPlayback() {
-    var running = !T.paused && !T.offscreen;
-    [T.phase].concat(T.floats).forEach(function (t) { if (t) running ? t.resume() : t.pause(); });
+    const running = !T.paused && !T.offscreen;
+    [T.phase].concat(T.floats).forEach((t) => { if (t) running ? t.resume() : t.pause(); });
   }
   function run(tl) {
     if (T.phase && T.phase !== tl) T.phase.kill();
@@ -414,21 +422,19 @@
   function startFloats() {
     stopFloats();
     if (reduceMotion) return;
-    T.floats = live.map(function (p, k) {
-      return gsap.to(p.fl, {
-        y: "+=8",
-        rotation: k % 2 ? "-=1" : "+=1",
-        duration: 2.1 + (k % 3) * 0.45,
-        delay: k * 0.12,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1
-      });
-    });
+    T.floats = live.map((p, k) => gsap.to(p.fl, {
+      y: "+=8",
+      rotation: k % 2 ? "-=1" : "+=1",
+      duration: 2.1 + (k % 3) * 0.45,
+      delay: k * 0.12,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1
+    }));
     syncPlayback();
   }
   function stopFloats() {
-    T.floats.forEach(function (t) { t.kill(); });
+    T.floats.forEach((t) => t.kill());
     T.floats = [];
   }
   function enterExploded() {
@@ -444,10 +450,10 @@
   }
   function explode() {
     T.state = "exploding";
-    var tl = gsap.timeline({ onComplete: enterExploded });
+    const tl = gsap.timeline({ onComplete: enterExploded });
     tl.to(shadowEl, { opacity: 0, duration: 0.8, ease: "power1.out" }, 0);
-    live.forEach(function (p, k) {
-      var t = k * CONFIG.explodeStagger, lt = t + CONFIG.explodeDur * 0.6;
+    live.forEach((p, k) => {
+      const t = k * CONFIG.explodeStagger, lt = t + CONFIG.explodeDur * 0.6;
       tl.to(p.el, { x: p.sx - p.cx, y: p.sy - p.cy, scale: p.sc, duration: CONFIG.explodeDur, ease: "power2.out" }, t);
       tl.fromTo(p.dot, { opacity: 0, scale: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, lt);
       tl.fromTo(p.line, { strokeDashoffset: p.len, opacity: 1 }, { strokeDashoffset: 0, duration: 0.5, ease: "power1.inOut", immediateRender: false }, lt + 0.05);
@@ -460,12 +466,12 @@
     root.classList.remove("is-exploded");
     clearFocus();
     stopFloats();
-    var tl = gsap.timeline({ onComplete: function () { setAssembled(); enterAssembled(); } });
+    const tl = gsap.timeline({ onComplete: () => { setAssembled(); enterAssembled(); } });
     tl.to(els("card"), { opacity: 0, duration: 0.35, ease: "power1.in" }, 0);
     tl.to(els("line").concat(els("dot")), { opacity: 0, duration: 0.35, ease: "power1.in" }, 0);
     tl.to(els("fl"), { y: 0, rotation: 0, duration: 0.5, ease: "power1.out" }, 0);
     // Back-to-front: 01 Back Plate first ... 07 Dryer Cover last, on top.
-    live.forEach(function (p, k) {
+    live.forEach((p, k) => {
       tl.to(p.el, { x: 0, y: 0, scale: 1, rotation: 0, duration: CONFIG.returnDur, ease: "power3.inOut" }, 0.45 + k * CONFIG.returnStagger);
     });
     tl.to(shadowEl, { opacity: 1, duration: 0.8, ease: "power1.out" }, ">-0.5");
@@ -492,29 +498,31 @@
     }
   }
   // ---- Hover / tap focus -------------------------------------------------
-  var focused = null;
+  let focused = null;
   function setFocus(p) {
     if (focused === p) return;
     clearFocus();
     if (!p || !root.classList.contains("is-exploded")) return;
     focused = p;
     root.classList.add("has-focus");
-    [p.el, p.card, p.line].forEach(function (e) { e.classList.add("is-focus"); });
+    p.el.style.zIndex = 95; // lift the focused part above its neighbours
+    [p.el, p.card, p.line].forEach((e) => e.classList.add("is-focus"));
   }
   function clearFocus() {
     if (!focused) return;
-    [focused.el, focused.card, focused.line].forEach(function (e) { e.classList.remove("is-focus"); });
+    focused.el.style.zIndex = focused.L.z;
+    [focused.el, focused.card, focused.line].forEach((e) => e.classList.remove("is-focus"));
     root.classList.remove("has-focus");
     focused = null;
   }
   function bindFocus(p) {
-    [p.hit, p.card].forEach(function (target) {
-      target.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") setFocus(p); });
-      target.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") clearFocus(); });
-      target.addEventListener("click", function (e) { e.stopPropagation(); focused === p ? clearFocus() : setFocus(p); });
+    [p.hit, p.card].forEach((target) => {
+      target.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") setFocus(p); });
+      target.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") clearFocus(); });
+      target.addEventListener("click", (e) => { e.stopPropagation(); focused === p ? clearFocus() : setFocus(p); });
     });
   }
-  root.addEventListener("click", function () { clearFocus(); });
+  root.addEventListener("click", () => clearFocus());
   // ---- Controls ----------------------------------------------------------
   function setPaused(v) {
     T.paused = v;
@@ -522,34 +530,34 @@
     toggleBtn.setAttribute("aria-label", v ? "Play animation" : "Pause animation");
     syncPlayback();
   }
-  toggleBtn.addEventListener("click", function (e) {
+  toggleBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     if (!gsap) return;
     if (!T.phase && T.state === "assembled") { setPaused(false); restart(0.3); return; }
     setPaused(!T.paused);
   });
-  replayBtn.addEventListener("click", function (e) {
+  replayBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     if (!gsap || T.state === "idle") return;
     setPaused(false);
     restart(0.6);
   });
   // ---- Init --------------------------------------------------------------
-  Promise.all([loadGsap()].concat(parts.map(loadPart))).then(function (res) {
+  Promise.all([loadGsap()].concat(parts.map(loadPart))).then((res) => {
     gsap = res[0];
-    live = parts.filter(function (p) { return p.ok; });
-    if (!live.length) { root.querySelector(".xl-loader").textContent = "Images unavailable"; return; }
+    live = parts.filter((p) => p.ok);
+    if (!live.length) { loaderEl.textContent = "Images unavailable"; return; }
     live.forEach(bindFocus);
     computeLayout();
     applyBase();
     setAssembled();
     root.classList.add("is-ready");
     T.state = "assembled";
-    var started = false;
-    function start() { if (!started) { started = true; hold(CONFIG.holdAssembled, explode); } }
+    let started = false;
+    const start = () => { if (!started) { started = true; hold(CONFIG.holdAssembled, explode); } };
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        var visible = entries[entries.length - 1].isIntersecting;
+      new IntersectionObserver((entries) => {
+        const visible = entries[entries.length - 1].isIntersecting;
         T.offscreen = !visible;
         if (visible) start();
         syncPlayback();
@@ -557,21 +565,22 @@
     } else {
       start();
     }
-    var timer = null, lastW = W, lastH = H;
-    function onResize() {
+    let timer = null, lastW = W, lastH = H;
+    const onResize = () => {
       if (root.clientWidth === lastW && root.clientHeight === lastH) return;
       clearTimeout(timer);
-      timer = setTimeout(function () {
+      timer = setTimeout(() => {
         lastW = root.clientWidth;
         lastH = root.clientHeight;
         relayout();
       }, 120);
-    }
+    };
     if ("ResizeObserver" in window) new ResizeObserver(onResize).observe(root);
     else window.addEventListener("resize", onResize);
-  }).catch(function (err) {
-    root.querySelector(".xl-loader").textContent = "Animation unavailable";
+  }).catch((err) => {
+    loaderEl.textContent = "Animation unavailable";
     if (window.console) console.warn("[XLERATOR]", err);
   });
 })();
 </script>
+</div>
