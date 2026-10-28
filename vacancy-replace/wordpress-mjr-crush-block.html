@@ -1,0 +1,192 @@
+<div id="ai-custom-widget-mjr-crush">
+  <div class="spv-crush">
+    <div class="spv-crush__stage">
+      <div class="spv-crush__sign">
+        <span class="spv-crush__stamp">
+          <span class="spv-crush__stamp-top">Lease</span>
+          <span class="spv-crush__stamp-main">Extended</span>
+        </span>
+      </div>
+      <img class="spv-crush__logo" src="https://spinosoreg.com/wp-content/uploads/2026/09/MJR-Logo.png" alt="MJR Theaters">
+    </div>
+    <canvas class="spv-crush__fx" aria-hidden="true"></canvas>
+  </div>
+</div>
+<style>
+  #ai-custom-widget-mjr-crush .spv-crush { position: relative; max-width: 360px; margin: 0 auto 24px; }
+  #ai-custom-widget-mjr-crush .spv-crush__stage { position: relative; aspect-ratio: 500 / 279; }
+  #ai-custom-widget-mjr-crush .spv-crush__sign { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed #b5b9be; border-radius: 4px; background: #f4f5f6; color: #8a8f96; text-transform: uppercase; line-height: 1; transform-origin: 50% 100%; }
+  #ai-custom-widget-mjr-crush .spv-crush__sign::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, 0) 75%); opacity: var(--spv-shadow, 0); pointer-events: none; }
+  /* rubber-stamp look: tilted, double-ruled border, slightly uneven ink */
+  #ai-custom-widget-mjr-crush .spv-crush__stamp { display: flex; flex-direction: column; align-items: center; padding: .45em .8em .5em; border: 4px double #b3261e; border-radius: 6px; color: #b3261e; transform: rotate(-9deg); opacity: .88; font-family: "Courier New", Courier, monospace; -webkit-mask-image: repeating-linear-gradient(-35deg, #000 0 3px, rgba(0, 0, 0, .78) 3px 4px, #000 4px 9px, rgba(0, 0, 0, .9) 9px 10px); mask-image: repeating-linear-gradient(-35deg, #000 0 3px, rgba(0, 0, 0, .78) 3px 4px, #000 4px 9px, rgba(0, 0, 0, .9) 9px 10px); }
+  #ai-custom-widget-mjr-crush .spv-crush__stamp-top { font-size: clamp(11px, 3vw, 14px); font-weight: 700; letter-spacing: .45em; margin-right: -.45em; }
+  #ai-custom-widget-mjr-crush .spv-crush__stamp-main { font-size: clamp(22px, 5.6vw, 34px); font-weight: 900; letter-spacing: .08em; margin-top: 4px; }
+  #ai-custom-widget-mjr-crush .spv-crush__logo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; margin: 0; opacity: 0; transform-origin: 50% 100%; z-index: 1; }
+  #ai-custom-widget-mjr-crush .spv-crush__fx { position: absolute; left: 0; top: -50%; width: 100%; height: 180%; pointer-events: none; z-index: 2; }
+  @media (prefers-reduced-motion: reduce) {
+    #ai-custom-widget-mjr-crush .spv-crush__sign { display: none; }
+    #ai-custom-widget-mjr-crush .spv-crush__logo { opacity: 1; }
+  }
+</style>
+<script>
+  (function () {
+    const ROOT = '#ai-custom-widget-mjr-crush';
+    const HOLD_MS = 1000;   // how long it must be fully in view before the drop starts
+    const SPEED = 1;        // 1.5 = everything 50% slower, 0.8 = faster
+
+    // Timeline (ms). The logo hovers, falls, meets the sign, pushes, then smashes through.
+    const RUMBLE = 500 * SPEED, FALL = 1250 * SPEED, PUSH = 220 * SPEED, SMASH = 170 * SPEED;
+    const T_FALL = RUMBLE, T_CONTACT = T_FALL + FALL, T_PUSH = T_CONTACT + PUSH, T_IMPACT = T_PUSH + SMASH;
+    const START_Y = -2.6;   // logo starts 2.6 logo-heights above its resting place
+
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function dust(el, onlyChips) {
+      const canvas = document.querySelector(ROOT + ' .spv-crush__fx');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      // let the dust spill past the logo's sides, but never past the screen edge
+      const box = el.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+      const lw = box.width, reach = lw * .35;
+      const extL = Math.max(0, Math.min(reach, box.left - 2)), extR = Math.max(0, Math.min(reach, vw - box.right - 2));
+      canvas.style.left = -extL + 'px';
+      canvas.style.width = (lw + extL + extR) + 'px';
+      const w = canvas.offsetWidth, h = canvas.offsetHeight;
+      if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) { canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const s = lw / 360;
+      const ground = h * (0.5 / 1.8 + 1 / 1.8);  // stage bottom inside the canvas
+      const top = h * (0.5 / 1.8);               // stage top inside the canvas
+      const cx = extL + lw / 2;
+      const puffs = [], chips = [];
+      const chipColors = ['#b5b9be', '#8a8f96', '#d9dcdf', '#9ea3a9'];
+
+      function chip(x, y, dir, power) {
+        chips.push({ x: x, y: y, vx: dir * (1 + Math.random() * 3.5) * s * power, vy: -(1.5 + Math.random() * 4.5) * s * power,
+          r: Math.random() * 6, vr: (Math.random() - .5) * .5, size: (2 + Math.random() * 4) * s,
+          color: chipColors[Math.floor(Math.random() * chipColors.length)], life: 1, bounced: false });
+      }
+
+      if (onlyChips) {
+        // the sign starts cracking where the logo presses on it
+        for (let i = 0; i < 10; i++) chip(cx + (Math.random() - .5) * lw * .9, top + 4, Math.random() < .5 ? -1 : 1, .6);
+      } else {
+        for (let j = 0; j < 110; j++) {
+          const side = Math.random() < .5 ? -1 : 1;
+          const off = Math.random();
+          puffs.push({ x: cx + side * off * lw * .5, y: ground - Math.random() * 10 * s,
+            vx: side * (1.5 + off * 4 + Math.random() * 3) * s, vy: -(0.3 + Math.random() * 1.8) * s,
+            r: (5 + Math.random() * 10) * s, grow: (.25 + Math.random() * .35) * s,
+            a: .3 + Math.random() * .25, life: 1, decay: .005 + Math.random() * .006 });
+        }
+        for (let k = 0; k < 34; k++) chip(cx + (Math.random() - .5) * lw * .95, ground - 4, Math.random() < .5 ? -1 : 1, 1);
+      }
+
+      (function frame() {
+        ctx.clearRect(0, 0, w, h);
+        for (let i = puffs.length - 1; i >= 0; i--) {
+          const p = puffs[i];
+          p.vx *= .955; p.vy = p.vy * .975 - .012 * s;
+          p.x += p.vx; p.y += p.vy; p.r += p.grow; p.life -= p.decay;
+          if (p.life <= 0) { puffs.splice(i, 1); continue; }
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          g.addColorStop(0, 'rgba(158,146,128,' + (p.a * p.life) + ')');
+          g.addColorStop(1, 'rgba(158,146,128,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        }
+        for (let c = chips.length - 1; c >= 0; c--) {
+          const q = chips[c];
+          q.vy += .28 * s; q.vx *= .99;
+          q.x += q.vx; q.y += q.vy; q.r += q.vr;
+          if (q.y > ground && !q.bounced) { q.y = ground; q.vy *= -.3; q.vx *= .5; q.bounced = true; }
+          if (q.bounced) q.life -= .02;
+          if (q.life <= 0 || q.y > h) { chips.splice(c, 1); continue; }
+          ctx.save(); ctx.globalAlpha = q.life; ctx.fillStyle = q.color;
+          ctx.translate(q.x, q.y); ctx.rotate(q.r); ctx.fillRect(-q.size / 2, -q.size / 3, q.size, q.size * .66);
+          ctx.restore();
+        }
+        if (puffs.length || chips.length) requestAnimationFrame(frame);
+        else ctx.clearRect(0, 0, w, h);
+      })();
+    }
+
+    function play(el) {
+      const stage = document.querySelector(ROOT + ' .spv-crush__stage');
+      const sign = document.querySelector(ROOT + ' .spv-crush__sign');
+      const logo = document.querySelector(ROOT + ' .spv-crush__logo');
+      const t0 = performance.now();
+      let cracked = false, landed = false;
+
+      (function frame(now) {
+        const t = now - t0;
+        let y, k;
+        let signSX = 1, signSY = 1, shadow = 0, logoSX = 1, logoSY = 1, stageX = 0, stageY = 0, logoOpacity = 1;
+
+        if (t < T_FALL) {                       // something is coming: the shadow grows
+          k = t / RUMBLE;
+          y = START_Y; logoOpacity = 0;
+          shadow = .25 * k;
+        } else if (t < T_CONTACT) {             // falling, accelerating
+          k = (t - T_FALL) / FALL;
+          y = START_Y + (START_Y * -1 - 1) * k * k;
+          logoOpacity = Math.min(1, k * 4);
+          shadow = .25 + .6 * k;
+        } else if (t < T_PUSH) {                // it hits the sign; the sign resists
+          k = (t - T_CONTACT) / PUSH; k = 1 - (1 - k) * (1 - k);
+          y = -1 + .12 * k;
+          signSX = 1 + .03 * k; shadow = .85;
+          if (!cracked) { cracked = true; dust(el, true); }
+        } else if (t < T_IMPACT) {              // it smashes through
+          k = (t - T_PUSH) / SMASH; k = k * k;
+          y = -.88 + .88 * k;
+          signSX = 1.03 + .1 * k; shadow = .85;
+        } else {                                // impact: squash, shake, dust
+          k = t - T_IMPACT;
+          y = 0;
+          signSX = 1.13;
+          const decay = Math.exp(-k / 160);
+          logoSY = 1 - .09 * Math.exp(-k / 110) * Math.cos(k / 50);
+          logoSX = 1 + (1 - logoSY) * .6;
+          stageX = Math.sin(k / 11) * 7 * decay;
+          stageY = Math.abs(Math.cos(k / 14)) * 5 * decay;
+          if (!landed) { landed = true; dust(el, false); }
+        }
+
+        // the sign's top edge follows the logo's bottom edge, so it's crushed flat
+        signSY = Math.max(0.02, Math.min(1, -y));
+
+        logo.style.opacity = logoOpacity;
+        logo.style.transform = 'translateY(' + (y * 100) + '%) scale(' + logoSX + ',' + logoSY + ')';
+        sign.style.transform = 'scale(' + signSX + ',' + signSY + ')';
+        sign.style.setProperty('--spv-shadow', shadow);
+        if (t > T_IMPACT) sign.style.opacity = Math.max(0, 1 - (t - T_IMPACT) / 250);
+        stage.style.transform = 'translate(' + stageX + 'px,' + stageY + 'px)';
+
+        if (t < T_IMPACT + 1400) requestAnimationFrame(frame);
+        else { logo.style.transform = stage.style.transform = ''; sign.style.display = 'none'; }
+      })(t0);
+    }
+
+    function init() {
+      const el = document.querySelector(ROOT + ' .spv-crush');
+      if (!el || el.hasAttribute('data-spv-ready')) return;
+      el.setAttribute('data-spv-ready', '');
+      if (reduce) return;
+      if (!('IntersectionObserver' in window)) { play(el); return; }
+      let timer = null;
+      const io = new IntersectionObserver(function (entries) {
+        // only start once it's (almost) fully on screen; cancel if they scroll past first
+        if (entries[0].intersectionRatio >= .95) {
+          timer = timer || setTimeout(function () { io.disconnect(); play(el); }, HOLD_MS);
+        } else {
+          clearTimeout(timer); timer = null;
+        }
+      }, { threshold: [0, .95, 1] });
+      io.observe(document.querySelector(ROOT + ' .spv-crush__stage'));
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })();
+</script>
