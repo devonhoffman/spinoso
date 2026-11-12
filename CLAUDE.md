@@ -30,6 +30,7 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   Put the part's first point on the corner nearest the main outline.
 - `kingston-collection-perimeter-widget.html`: Kingston Collection (Kingston, MA). Black & white
   photo only, short opening like Hampshire. Built from the Jefferson-based template.
+- `mall-at-johnson-city-perimeter-widget.html`: Mall at Johnson City (Johnson City, TN)
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
