@@ -1,8 +1,11 @@
 # Spinoso property widgets
 
 This repo holds animated graphics for Spinoso property pages. Each one is pasted into a
-single WordPress Elementor "HTML Widget". `mall-perimeter-widget.html` (Broward Mall) is the
-reference implementation for the aerial "perimeter trace" effect.
+single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one per property:
+
+- `mall-perimeter-widget.html`: Broward Mall
+- `albany-mall-perimeter-widget.html`: Albany Mall (Albany, GA). This is the current template
+  for new properties: same as Broward plus the `data-zoom` setting.
 
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
@@ -52,10 +55,14 @@ Process (as done for Broward Mall):
 2. Align the outline image to the color photo (they can be cropped/scaled differently): fit a
    scale + offset by correlating the two grayscale images, then map the points into the color
    photo's pixel coordinates. Overlay the result on the color photo and check it by eye.
-3. Copy `mall-perimeter-widget.html`, give it a new unique ID (every occurrence, including the
-   keyframe suffixes), and update: `data-src`, `aria-label`, the three `<polygon points>`, the
-   SVG `viewBox`, the `.mp-scene` width/height, and `IMG_W` / `IMG_H` in the script, all to the
-   color photo's pixel size. Leave the animation, timing and responsive behavior unchanged.
+3. Copy the current template (`albany-mall-perimeter-widget.html`), give it a new unique ID
+   (every occurrence, including the keyframe suffixes), and update: the top comment,
+   `data-src`, `aria-label`, the three `<polygon points>`, the SVG `viewBox`, the `.mp-scene`
+   width/height, and `IMG_W` / `IMG_H` in the script, all to the color photo's pixel size.
+   Set `data-zoom` for how small the property is in the photo: `1` when it fills much of the
+   frame (Broward), about `2.2` when it is a small part of a wide shot (Albany). The script
+   never zooms so far that the outline is cut off. Leave the animation, timing and responsive
+   behavior unchanged.
 4. Test in headless Chromium (Playwright with
    `executablePath: /opt/pw-browsers/chromium-*/chrome-linux/chrome`) inside a mock
    two-column Elementor layout: check the outline lines up, the animation plays, there are no
