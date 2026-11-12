@@ -29,6 +29,9 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   (`BRANCH` / `PART_DRAW` timings), and everything pulses together when all parts are done.
   Put the part's first point on the corner nearest the main outline.
 
+`gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
+making these in Gemini Canvas. If the widget template changes, update that file too.
+
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
 These come from the site's developer. Every generated widget MUST follow them, with no
