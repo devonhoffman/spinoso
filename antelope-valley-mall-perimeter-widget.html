@@ -1,0 +1,352 @@
+<!-- Antelope Valley Mall (Palmdale, CA) perimeter reveal: color -> black & white -> gold outline draws -> pulse.
+     Image: full-color aerial photo set in data-src below. data-zoom: how far to zoom in on the mall (1 = whole photo height). -->
+<div id="ai-custom-widget-antelopevalley-p7m3x5" data-src="https://spinosoreg.com/wp-content/uploads/2026/11/Antelope-Valley-4.jpg" data-min-height="360" data-zoom="2.2" role="img" aria-label="Aerial view of Antelope Valley Mall in Palmdale, CA with its property boundary outlined in gold">
+  <div class="mp-stage">
+    <div class="mp-scene">
+    <img class="mp-img mp-color" alt="" decoding="async">
+    <img class="mp-img mp-bw" alt="" decoding="async" aria-hidden="true">
+    <svg class="mp-svg" viewBox="0 0 912 720" preserveAspectRatio="none" aria-hidden="true">
+      <polygon class="mp-fill" points="365,224 392,224 392,261 404,261 404,291 449,291 449,277 476,277 476,334 442,334 442,350 393,350 393,331 371,331 371,360 325,360 325,333 285,333 285,285 318,285 318,269 357,269 357,261 365,261"/>
+      <polygon class="mp-pulse" points="365,224 392,224 392,261 404,261 404,291 449,291 449,277 476,277 476,334 442,334 442,350 393,350 393,331 371,331 371,360 325,360 325,333 285,333 285,285 318,285 318,269 357,269 357,261 365,261"/>
+      <polygon class="mp-line" points="365,224 392,224 392,261 404,261 404,291 449,291 449,277 476,277 476,334 442,334 442,350 393,350 393,331 371,331 371,360 325,360 325,333 285,333 285,285 318,285 318,269 357,269 357,261 365,261"/>
+      <g class="mp-dot" transform="translate(693,-30)">
+        <g class="mp-dot-size">
+          <circle class="mp-dot-ring" r="9"/>
+          <circle class="mp-dot-core" r="9"/>
+        </g>
+      </g>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+#ai-custom-widget-antelopevalley-p7m3x5 {
+  --mp-gold: #e0a93b;
+  --mp-fade: 1.6s;
+  --mp-sw: 6;          /* line width in SVG units; JS keeps it ~6 screen px */
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 360px;
+  line-height: 0;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #2a2a2a;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 912px;
+  height: 720px;
+  transform-origin: 0 0;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  object-fit: cover;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-bw {
+  filter: grayscale(1) brightness(1.12) contrast(0.92);
+  opacity: 0;
+  transition: opacity var(--mp-fade) ease-in-out;
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-bw .mp-bw {
+  opacity: 1;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-line,
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-pulse {
+  fill: none;
+  stroke: var(--mp-gold);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-line {
+  stroke-width: var(--mp-sw);
+  opacity: 0;
+  filter: drop-shadow(0 0 3px rgba(224, 169, 59, 0.55));
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-drawing .mp-line {
+  opacity: 1;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-dot {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-dropping .mp-dot {
+  opacity: 1;
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-done .mp-dot {
+  opacity: 0;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-dot-core {
+  fill: var(--mp-gold);
+  stroke: #fff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(224, 169, 59, 0.9));
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-dot-ring {
+  fill: none;
+  stroke: var(--mp-gold);
+  stroke-width: 3;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-landed .mp-dot-ring {
+  animation: mp-land-p7m3x5 0.9s ease-out 1;
+}
+@keyframes mp-land-p7m3x5 {
+  0%   { opacity: 0.95; transform: scale(1); }
+  100% { opacity: 0;    transform: scale(3.4); }
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-pulse {
+  stroke-width: var(--mp-sw);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+#ai-custom-widget-antelopevalley-p7m3x5 .mp-fill {
+  fill: var(--mp-gold);
+  stroke: none;
+  opacity: 0;
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-done .mp-line {
+  filter: drop-shadow(0 0 4px rgba(224, 169, 59, 0.7));
+  animation: mp-line-pulse-p7m3x5 1.1s ease-out 1;
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-done .mp-pulse {
+  animation: mp-ring-p7m3x5 1.1s ease-out 1;
+}
+#ai-custom-widget-antelopevalley-p7m3x5.mp-is-done .mp-fill {
+  animation: mp-fill-p7m3x5 1.1s ease-out 1;
+}
+@keyframes mp-line-pulse-p7m3x5 {
+  0%   { stroke-width: var(--mp-sw); }
+  30%  { stroke-width: calc(var(--mp-sw) * 1.6); }
+  100% { stroke-width: var(--mp-sw); }
+}
+@keyframes mp-ring-p7m3x5 {
+  0%   { opacity: 0.9; stroke-width: var(--mp-sw);                 transform: scale(1); }
+  100% { opacity: 0;   stroke-width: calc(var(--mp-sw) * 2.6);     transform: scale(1.06); }
+}
+@keyframes mp-fill-p7m3x5 {
+  0%   { opacity: 0; }
+  30%  { opacity: 0.22; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #ai-custom-widget-antelopevalley-p7m3x5 .mp-bw,
+  #ai-custom-widget-antelopevalley-p7m3x5 .mp-dot { transition: none; }
+  #ai-custom-widget-antelopevalley-p7m3x5.mp-is-landed .mp-dot-ring,
+  #ai-custom-widget-antelopevalley-p7m3x5.mp-is-done .mp-line,
+  #ai-custom-widget-antelopevalley-p7m3x5.mp-is-done .mp-pulse,
+  #ai-custom-widget-antelopevalley-p7m3x5.mp-is-done .mp-fill { animation: none; }
+}
+</style>
+
+<script>
+(function () {
+  const root = document.querySelector('#ai-custom-widget-antelopevalley-p7m3x5');
+  if (!root || root.dataset.mpInit) return;
+  root.dataset.mpInit = '1';
+
+  // Timing (ms)
+  const HOLD_COLOR = 1200;   // how long the color photo shows first
+  const FADE = 1600;         // matches --mp-fade
+  const DROP = 1800;         // gold dot drifting down to the start point
+  const LAND_PAUSE = 500;    // beat after the dot lands, before tracing
+  const DRAW = 3000;         // tracing the perimeter
+
+  // Photo size the outline coordinates are drawn against
+  const IMG_W = 912;
+  const IMG_H = 720;
+  const LINE_PX = 6;         // on-screen thickness of the gold line
+  const DOT_PX = 9;          // on-screen radius of the gold dot
+
+  const src = root.getAttribute('data-src');
+  const minHeight = parseInt(root.getAttribute('data-min-height'), 10) || 360;
+  const zoom = Math.max(1, parseFloat(root.getAttribute('data-zoom')) || 1);
+  const stage = root.querySelector('.mp-stage');
+  const scene = root.querySelector('.mp-scene');
+  const imgColor = root.querySelector('.mp-color');
+  const imgBw = root.querySelector('.mp-bw');
+  const line = root.querySelector('.mp-line');
+  const dot = root.querySelector('.mp-dot');
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dotSize = root.querySelector('.mp-dot-size');
+  imgColor.src = src;
+  imgBw.src = src;
+
+  // ---- Responsive sizing -------------------------------------------------
+  // Height: fill the Elementor container (panel) this widget sits in.
+  // Width: whatever the column gives us. The photo always fills the full height;
+  // anything that doesn't fit is cropped off the sides, keeping the mall centered.
+  // Zoom: crops in closer around the mall, but never so far that the outline
+  // would be cut off, and never so little that the photo leaves empty space.
+  const host = root.closest('.e-con, .elementor-column, .elementor-widget-wrap') || root.parentElement;
+  const bbox = line.getBBox();
+  const focusX = bbox.x + bbox.width / 2;
+  const focusY = bbox.y + bbox.height / 2;
+  let scale = 1;
+  let offsetY = 0;
+
+  function fitHeight() {
+    if (!host) return;
+    root.style.height = minHeight + 'px';            // collapse so the panel shows its own height
+    const cs = getComputedStyle(host);
+    const avail = host.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    let h = avail;
+    if (h <= minHeight + 1) {
+      // Nothing beside us sets a height (e.g. columns stacked on mobile): use a pleasant ratio.
+      h = Math.min(640, Math.max(minHeight, root.clientWidth * 0.8));
+    }
+    root.style.height = Math.round(h) + 'px';
+  }
+
+  function layout() {
+    const W = stage.clientWidth;
+    const H = stage.clientHeight;
+    if (!W || !H) return;
+    const cover = Math.max(W / IMG_W, H / IMG_H);   // never any empty space
+    const fitOutline = Math.min(0.85 * W / bbox.width, 0.85 * H / bbox.height);
+    scale = Math.max(cover, Math.min(cover * zoom, fitOutline));
+    const clamp = function (v, lo, hi) { return Math.min(hi, Math.max(lo, v)); };
+    // Center on the mall, but never pull a photo edge into view
+    const x = clamp(W / 2 - focusX * scale, W - IMG_W * scale, 0);
+    const y = clamp(H / 2 - focusY * scale, H - IMG_H * scale, 0);
+    offsetY = y;
+    scene.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + scale.toFixed(4) + ')';
+    root.style.setProperty('--mp-sw', (LINE_PX / scale).toFixed(2));
+    dotSize.setAttribute('transform', 'scale(' + (DOT_PX / 9 / scale).toFixed(3) + ')');
+  }
+
+  let raf = 0;
+  function refresh() {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function () { fitHeight(); layout(); });
+  }
+  fitHeight();
+  layout();
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(refresh);
+    ro.observe(root);
+    if (host) ro.observe(host);
+  }
+  window.addEventListener('resize', refresh);
+
+  const len = Math.ceil(line.getTotalLength());
+  line.style.strokeDasharray = len + ' ' + len;
+  line.style.strokeDashoffset = String(len);
+
+  const start = line.getPointAtLength(0);
+  let DROP_FROM = -30; // recalculated to just above the visible top edge
+
+  function moveDot(x, y) {
+    dot.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ')');
+  }
+  moveDot(start.x, DROP_FROM);
+
+  const easeOutCubic = function (t) { return 1 - Math.pow(1 - t, 3); };
+  const easeInOutCubic = function (t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  function tween(duration, ease, onFrame, onDone) {
+    const t0 = performance.now();
+    function frame(now) {
+      const t = Math.min(1, (now - t0) / duration);
+      onFrame(ease(t));
+      if (t < 1) requestAnimationFrame(frame);
+      else if (onDone) onDone();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function dropDot(done) {
+    DROP_FROM = (-offsetY - 40) / scale;
+    moveDot(start.x, DROP_FROM);
+    root.classList.add('mp-is-dropping');
+    tween(DROP, easeOutCubic, function (k) {
+      moveDot(start.x, DROP_FROM + (start.y - DROP_FROM) * k);
+    }, function () {
+      root.classList.add('mp-is-landed');
+      setTimeout(done, LAND_PAUSE);
+    });
+  }
+
+  function trace(done) {
+    root.classList.add('mp-is-drawing');
+    tween(DRAW, easeInOutCubic, function (k) {
+      const d = len * k;
+      line.style.strokeDashoffset = String(len - d);
+      const pt = line.getPointAtLength(Math.min(d, len - 0.01));
+      moveDot(pt.x, pt.y);
+    }, done);
+  }
+
+  function finish() {
+    line.style.strokeDashoffset = '0';
+    root.classList.add('mp-is-done');
+  }
+
+  let started = false;
+  function play() {
+    if (started) return;
+    started = true;
+    if (reduceMotion) {
+      root.classList.add('mp-is-bw', 'mp-is-drawing');
+      finish();
+      return;
+    }
+    setTimeout(function () {
+      root.classList.add('mp-is-bw');
+      setTimeout(function () {
+        dropDot(function () { trace(finish); });
+      }, FADE * 0.8);
+    }, HOLD_COLOR);
+  }
+
+  function startWhenReady() {
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { io.disconnect(); play(); }
+        });
+      }, { threshold: 0.4 });
+      io.observe(root);
+    } else {
+      play();
+    }
+  }
+
+  if (imgColor.complete && imgColor.naturalWidth) startWhenReady();
+  else {
+    imgColor.addEventListener('load', startWhenReady, { once: true });
+    imgColor.addEventListener('error', startWhenReady, { once: true });
+  }
+})();
+</script>

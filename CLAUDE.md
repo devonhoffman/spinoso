@@ -6,6 +6,7 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `mall-perimeter-widget.html`: Broward Mall
 - `albany-mall-perimeter-widget.html`: Albany Mall (Albany, GA). This is the current template
   for new properties: same as Broward plus the `data-zoom` setting.
+- `antelope-valley-mall-perimeter-widget.html`: Antelope Valley Mall (Palmdale, CA)
 
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
@@ -55,6 +56,10 @@ Process (as done for Broward Mall):
 2. Align the outline image to the color photo (they can be cropped/scaled differently): fit a
    scale + offset by correlating the two grayscale images, then map the points into the color
    photo's pixel coordinates. Overlay the result on the color photo and check it by eye.
+   If the two images are from different viewpoints (e.g. an angled 3D view vs. a straight-down
+   photo, as with Antelope Valley), they cannot be aligned: trace the building footprint
+   directly in the color photo instead (a bright-roof mask helps), matching the shape and
+   level of detail of the gold outline.
 3. Copy the current template (`albany-mall-perimeter-widget.html`), give it a new unique ID
    (every occurrence, including the keyframe suffixes), and update: the top comment,
    `data-src`, `aria-label`, the three `<polygon points>`, the SVG `viewBox`, the `.mp-scene`
