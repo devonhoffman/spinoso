@@ -22,6 +22,12 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `ingram-park-mall-perimeter-widget.html`: Ingram Park Mall (San Antonio, TX). The photo has an
   unwanted blue tint (old branding), so `.mp-color` gets a warm-gray filter and the opening
   fades from warm gray to black & white instead of from full color.
+- `jefferson-mall-perimeter-widget.html`: Jefferson Mall (Louisville, KY). Two outlined areas.
+  Template for properties with extra outlined parts (outparcels): add each extra area as a
+  `mp-fill mp-part` / `mp-pulse mp-part` / `mp-line mp-part` polygon trio; a second dot splits
+  off the main trace where it passes closest to the part's first point and traces it
+  (`BRANCH` / `PART_DRAW` timings), and everything pulses together when all parts are done.
+  Put the part's first point on the corner nearest the main outline.
 
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
