@@ -19,6 +19,9 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   (no color version), so `HOLD_COLOR` / `FADE` are shortened to skip the empty color stage.
 - `haute-city-center-perimeter-widget.html`: Haute City Center (Terre Haute, IN)
 - `imperial-valley-mall-perimeter-widget.html`: Imperial Valley Mall (El Centro, CA)
+- `ingram-park-mall-perimeter-widget.html`: Ingram Park Mall (San Antonio, TX). The photo has an
+  unwanted blue tint (old branding), so `.mp-color` gets a warm-gray filter and the opening
+  fades from warm gray to black & white instead of from full color.
 
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
