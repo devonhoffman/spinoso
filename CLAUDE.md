@@ -34,6 +34,9 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `north-county-mall-perimeter-widget.html`: North County Mall (Escondido, CA). Blue-tinted photo,
   warm-gray opening like Ingram Park.
 - `northridge-mall-perimeter-widget.html`: Northridge Mall (Salinas, CA)
+- `palisades-center-perimeter-widget.html`: Palisades Center (West Nyack, NY). Black & white,
+  close-up photo where both ends of the mall are out of frame: the outline's end points sit just
+  past the photo edges so the line runs off both sides (the widget never shows past the edges).
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
