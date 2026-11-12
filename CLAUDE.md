@@ -8,6 +8,7 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   for new properties: same as Broward plus the `data-zoom` setting.
 - `antelope-valley-mall-perimeter-widget.html`: Antelope Valley Mall (Palmdale, CA)
 - `bayshore-mall-perimeter-widget.html`: Bayshore Mall (Eureka, CA)
+- `cottonwood-mall-perimeter-widget.html`: Cottonwood Mall (Albuquerque, NM)
 
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
