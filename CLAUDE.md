@@ -11,6 +11,7 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `cottonwood-mall-perimeter-widget.html`: Cottonwood Mall (Albuquerque, NM)
 - `crossroads-center-perimeter-widget.html`: Crossroads Center (St. Cloud, MN)
 - `ellsworth-place-perimeter-widget.html`: Ellsworth Place (Silver Spring, MD)
+- `fairfield-commons-perimeter-widget.html`: Fairfield Commons (Beavercreek, OH)
 
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
