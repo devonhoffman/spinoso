@@ -28,6 +28,8 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   off the main trace where it passes closest to the part's first point and traces it
   (`BRANCH` / `PART_DRAW` timings), and everything pulses together when all parts are done.
   Put the part's first point on the corner nearest the main outline.
+- `kingston-collection-perimeter-widget.html`: Kingston Collection (Kingston, MA). Black & white
+  photo only, short opening like Hampshire. Built from the Jefferson-based template.
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
