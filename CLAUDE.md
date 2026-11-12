@@ -1,0 +1,62 @@
+# Spinoso property widgets
+
+This repo holds animated graphics for Spinoso property pages. Each one is pasted into a
+single WordPress Elementor "HTML Widget". `mall-perimeter-widget.html` (Broward Mall) is the
+reference implementation for the aerial "perimeter trace" effect.
+
+## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
+
+These come from the site's developer. Every generated widget MUST follow them, with no
+exceptions. Check the finished code against each rule before handing it over.
+
+The output you generate will be placed directly into a single WordPress Elementor "HTML Widget". To ensure this code does not conflict with the existing WordPress theme, Elementor global styles, or other plugins, you MUST strictly adhere to the following rules:
+
+1.  **Single-Block Output:** Provide a single, unified block of code containing the HTML, `<style>`, and `<script>` tags. Do not provide separate files or instructions to enqueue scripts.
+2.  **No Global Tags:** Do NOT include `<html>`, `<head>`, `<body>`, or `<!DOCTYPE>` tags. Start directly with the outer container of the widget.
+3.  **Mandatory CSS Namespacing:**
+    *   You MUST wrap all HTML in a single unique wrapper `div` with a highly specific ID (e.g., `<div id="ai-custom-widget-[unique_string]">`).
+    *   **Every single CSS rule** in your `<style>` block MUST be prefixed with that unique ID to isolate the styles (e.g., `#ai-custom-widget-12345 h2 { ... }`).
+    *   Do NOT use global selectors (like `body`, `a`, `h1`, `p`) without the unique ID prefix.
+    *   Do NOT use CSS resets or normalize styles.
+    *   Avoid using `!important` unless absolutely necessary to override an Elementor default.
+4.  **JavaScript Encapsulation (IIFE):**
+    *   All JavaScript MUST be contained within an Immediately Invoked Function Expression (IIFE) to avoid polluting the global namespace (e.g., `(function() { ... })();`).
+    *   Use `const` and `let` instead of `var` within the IIFE.
+    *   Target DOM elements exclusively within the unique wrapper ID using `document.querySelector('#ai-custom-widget-[unique_string] .my-class')` to ensure you do not accidentally manipulate other elements on the WordPress page.
+    *   Since WordPress runs jQuery in compatibility mode, if you must use jQuery, pass it into the IIFE safely: `(function($) { ... })(jQuery);`. However, prefer Vanilla JS.
+5.  **No External Assets (Unless Specified):** Do not call external CSS frameworks (like Bootstrap or Tailwind via CDN) or JS libraries in the code unless explicitly asked.
+
+### How these apply to this repo's widgets
+
+- Each widget gets its own unique ID (e.g. `ai-custom-widget-mallperim-<random>`), so several
+  can sit on one page. Use that ID everywhere: the wrapper, every CSS selector, the JS lookup.
+- `@keyframes` names and SVG/filter IDs are global too: suffix them with the same unique string
+  (e.g. `mp-ring-7q3x9k`).
+- JavaScript may *read* an ancestor (the widget measures the Elementor container it sits in to
+  match the panel height) but must never *write* to anything outside the wrapper.
+- Hand over the full code block in the reply, ready to paste, plus the `.html` file.
+
+## Perimeter-trace widget: making one for a new property
+
+Inputs, per property:
+1. The full-color aerial photo (uploaded in chat). This is the image that is displayed.
+2. The same view with the gold outline drawn on it (uploaded in chat). Used only for tracing.
+3. The Media Library URL of the color photo. It goes into `data-src`. The session's network
+   may block the site, so the URL is not fetched; the uploaded copy must be the same image
+   (same crop/framing; resolution can differ).
+4. The property name, for the `aria-label`.
+
+Process (as done for Broward Mall):
+1. Extract the gold line from the outline image (high red-minus-blue, bright pixels) and read
+   off the polygon's corner points.
+2. Align the outline image to the color photo (they can be cropped/scaled differently): fit a
+   scale + offset by correlating the two grayscale images, then map the points into the color
+   photo's pixel coordinates. Overlay the result on the color photo and check it by eye.
+3. Copy `mall-perimeter-widget.html`, give it a new unique ID (every occurrence, including the
+   keyframe suffixes), and update: `data-src`, `aria-label`, the three `<polygon points>`, the
+   SVG `viewBox`, the `.mp-scene` width/height, and `IMG_W` / `IMG_H` in the script, all to the
+   color photo's pixel size. Leave the animation, timing and responsive behavior unchanged.
+4. Test in headless Chromium (Playwright with
+   `executablePath: /opt/pw-browsers/chromium-*/chrome-linux/chrome`) inside a mock
+   two-column Elementor layout: check the outline lines up, the animation plays, there are no
+   script errors, and the widget fills the panel height at several widths.
