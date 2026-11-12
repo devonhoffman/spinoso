@@ -15,6 +15,8 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `galleria-at-sunset-perimeter-widget.html`: Galleria at Sunset (Henderson, NV)
 - `greenville-mall-perimeter-widget.html`: Greenville Mall (Greenville, NC)
 - `greenwood-mall-perimeter-widget.html`: Greenwood Mall (Bowling Green, KY)
+- `hampshire-mall-perimeter-widget.html`: Hampshire Mall (Hadley, MA). Black & white photo only
+  (no color version), so `HOLD_COLOR` / `FADE` are shortened to skip the empty color stage.
 
 ## CRITICAL CONSTRAINTS FOR WORDPRESS ELEMENTOR HTML WIDGET
 
