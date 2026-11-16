@@ -39,6 +39,8 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   past the photo edges so the line runs off both sides (the widget never shows past the edges).
 - `rogue-valley-mall-perimeter-widget.html`: Rogue Valley Mall (Medford, OR). Color photo is
   rotated ~90° from the outline image; traced by hand on the color photo.
+- `santa-maria-town-center-perimeter-widget.html`: Santa Maria Town Center (Santa Maria, CA).
+  Black & white photo only, short opening.
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
