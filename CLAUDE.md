@@ -53,6 +53,8 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `southridge-mall-perimeter-widget.html`: Southridge Mall (Greendale, WI)
 - `springfield-mall-perimeter-widget.html`: Springfield Mall (Springfield Township, PA). Traced
   by hand on the color photo (different viewpoint).
+- `sunvalley-shopping-center-perimeter-widget.html`: Sunvalley Shopping Center (Concord, CA). Two
+  outlined areas (split-off dot, like Jefferson).
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
