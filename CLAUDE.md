@@ -42,6 +42,8 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `santa-maria-town-center-perimeter-widget.html`: Santa Maria Town Center (Santa Maria, CA).
   Black & white photo only, short opening.
 - `shops-at-montebello-perimeter-widget.html`: The Shops at Montebello (Montebello, CA)
+- `simi-valley-town-center-perimeter-widget.html`: Simi Valley Town Center (Simi Valley, CA).
+  Traced by hand on the color photo (different viewpoint from the outline image).
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
