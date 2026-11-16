@@ -59,6 +59,7 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   MI). Traced by hand on the color photo (different viewpoint).
 - `mall-at-wellington-green-perimeter-widget.html`: The Mall at Wellington Green (Wellington, FL).
   Blue-tinted photo, warm-gray opening like Ingram Park.
+- `oaks-mall-perimeter-widget.html`: The Oaks Mall (Gainesville, FL)
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
