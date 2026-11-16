@@ -48,6 +48,7 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
   on the color photo (different viewpoint).
 - `solomon-pond-mall-perimeter-widget.html`: Solomon Pond Mall (Marlborough, MA). Color photo
   rotated ~90° from the outline image; traced by hand. The outline leaves out the tan-roofed anchor.
+- `southpark-mall-perimeter-widget.html`: Southpark Mall (Colonial Heights, VA)
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
