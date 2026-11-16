@@ -63,6 +63,8 @@ single WordPress Elementor "HTML Widget". Aerial "perimeter trace" widgets, one 
 - `outlet-shoppes-at-gettysburg-perimeter-widget.html`: The Outlet Shoppes at Gettysburg (Gettysburg, PA).
   Color photo is zoomed in from the outline image; aligned by scale + offset, west end adjusted by hand.
 - `shoppes-at-carlsbad-perimeter-widget.html`: The Shoppes at Carlsbad (Carlsbad, CA). Zoom 1.
+- `town-center-at-aurora-perimeter-widget.html`: Town Center at Aurora (Aurora, CO). Four outlined areas
+  (main + three parts, three split-off dots). Main trace starts at the west arm so the splits are staggered. Zoom 1.
 
 `gemini-canvas-prompt.md` is a standalone prompt (with the widget as a fill-in template) for
 making these in Gemini Canvas. If the widget template changes, update that file too.
